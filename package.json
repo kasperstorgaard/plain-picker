@@ -1,0 +1,40 @@
+{
+  "name": "eyas-polyform",
+  "version": "0.1.0",
+  "description": "test for elements in polymer",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "polymer test",
+    "lint": "polymer lint && eslint eyas-polyform.html",
+    "hooks": "sudo chmod +x hooks/*; cp hooks/* .git/hooks/",
+    "serve": "polymer serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FalconSocial/eyas-polyform.git"
+  },
+  "keywords": [
+    "falcon",
+    "component",
+    "polymer"
+  ],
+  "author": "FalconSocial",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FalconSocial/eyas-polyform/issues"
+  },
+  "homepage": "https://github.com/FalconSocial/eyas-polyform#readme",
+  "devDependencies": {
+    "eslint": "^3.0.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-html": "^1.5.1",
+    "eslint-plugin-import": "^1.10.3",
+    "eslint-plugin-jsx-a11y": "^2.0.1",
+    "eslint-plugin-react": "^5.2.2",
+    "polymer-cli": "^0.12.0"
+  },
+  "dependencies": {}
+}

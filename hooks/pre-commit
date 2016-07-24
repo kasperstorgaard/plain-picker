@@ -1,0 +1,29 @@
+#!/bin/sh
+
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep -E ".html$")
+
+if [[ "$STAGED_FILES" = "" ]]; then
+  exit 0
+fi
+
+PASS=true
+
+echo "\033[1m\033[32mLinting HTML with Polylint, eslint:\n\033[0m"
+
+for FILE in $STAGED_FILES
+do
+  ./node_modules/.bin/polylint --input "$FILE" && ./node_modules/.bin/eslint "$FILE"
+
+  if [[ "$?" != 0 ]]; then
+    PASS=false
+  fi
+done
+
+if ! $PASS; then
+  echo "\033[1m\033[31m✖ Commit failed!\033[0m\n"
+  exit 1
+else
+  echo "\033[1m\033[32m✔ Commit passed!\033[0m\n"
+fi
+
+exit $?

@@ -1,0 +1,31 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+    `eyas-polyform`
+    test for elements in polymer
+
+    @demo demo/index.html 
+-->
+
+<dom-module id="eyas-polyform">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <h2>Hello [[prop1]]</h2>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'eyas-polyform',
+            properties: {
+                prop1: {
+                    type: String,
+                    value: 'eyas-polyform'
+                }
+            }
+        });
+    </script>
+</dom-module>
