@@ -1,9 +1,13 @@
 {
   "name": "eyas-polyform",
-    "description": "test for elements in polymer",
-        "main": "eyas-polyform.html",
+  "description": "test for elements in polymer",
+  "main": "eyas-polyform.html",
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.4.0"
+    "polymer": "Polymer/polymer#^1.4.0",
+    "iron-form": "^1.1.1",
+    "iron-validatable-behavior": "polymerelements/iron-validatable-behavior#^1.1.1",
+    "iron-input": "polymerelements/iron-input#^1.0.10",
+    "iron-validator-behavior": "polymerelements/iron-validator-behavior#^1.0.1"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

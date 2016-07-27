@@ -1,0 +1,52 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-input/iron-input.html">
+<link rel="import" href="./time-input-validator.html">
+
+<!--
+
+    @demo demo/time-input.html 
+-->
+
+<dom-module id="time-input">
+    <template>
+        <style>
+            :host {
+                display: inline-block;
+            }
+
+            #time {
+                width: 37px;
+                padding: 3px 5px;
+            }
+        </style>
+        <input is="iron-input" 
+               id="time" 
+               bind-value="{{_timeStr}}"
+               prevent-invalid-input
+               allowed-pattern="[0-9:aApPmM]"
+               placeholder$="[[format]]"
+        ></input>
+        <span>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'time-input',
+            properties: {
+                _timeStr: String,
+                value: {
+                    type: String,
+                    notify: true,
+                    computed: '_computeTime(_timeStr)'
+                },
+                format: {
+                    type: String,
+                    value: 'hh:mm'
+                }
+            },
+
+            _computeTime(timeStr) {
+            }
+        });
+    </script>
+</dom-module>
