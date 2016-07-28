@@ -1,5 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="../../iron-input/iron-input.html">
+<link rel="import" href="../../iron-validatable-behavior/iron-validatable-behavior">
 <link rel="import" href="./date-input-validator.html">
 <link rel="import" href="./date-input-guesser.html">
 
@@ -58,6 +59,7 @@
         Polymer({
             is: 'date-input',
             properties: {
+                behaviors: [Polymer.IronValidatableBehavior],
                 _dateStr: String,
                 value: {
                     type: String,

@@ -1,0 +1,44 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<!--
+    `pub-calendar-day`
+-->
+
+<dom-module id="pub-calendar-day">
+    <template>
+        <style>
+            :host {
+                text-align: center;
+                display: block;
+            }
+        </style>
+        [[number]]
+    </template>
+
+    <script>
+        Polymer({
+            is: 'pub-calendar-day',
+            properties: {
+                date: Object,
+                number: {
+                    type: Number,
+                    computed: '_getNumber(date)'
+                },
+                month: Object,
+                isOutsideMonth: {
+                    type: Boolean,
+                    computed: '_isOutsideMonth(date, month)',
+                    reflectToAttribute: true
+                }
+            },
+
+            _getNumber (date) {
+                return date.getDate();
+            },
+
+            _isOutsideMonth (date, month) {
+                return date.getMonth() !== month;
+            }
+        });
+    </script>
+</dom-module>

@@ -1,0 +1,151 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="./pub-calendar-day.html">
+
+<!--
+    `calendar-month`
+    a publish time input
+
+    @demo demo/calendar-month.html 
+-->
+
+<dom-module id="pub-calendar">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            
+            .week {
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                background: navy;
+                color: white;
+            }
+
+            .day {
+                width: 100%;
+                padding: 1.3em 0;
+            }
+
+            .day[is-outside-month] {
+                background: rgba(255,255,255,0.2);
+            }
+
+            .week:first-child .day:not([is-outside-month) + .day[is-outside-month] {
+                border-radius: 0 3px 0 0;
+            }
+
+            .day + .day {
+                border-radius: 0 0 0 3px;
+                color: red;
+            }
+        </style>
+        <div id="table">
+            <template is="dom-repeat" 
+                      items="[[_weeks]]"
+                      as="week">
+                <div class="week">
+                    <template is="dom-repeat"
+                              items="[[week.days]]"
+                              as="day">
+                        <pub-calendar-day date="[[day]]"
+                                          month="[[_jsMonth]]"
+                                          class="day">
+                        </pub-calendar-day>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'pub-calendar',
+            properties: {
+                month: Number, // 1
+                year: Number,
+                startOfWeek: {
+                    type: Number,
+                    value: 1
+                },
+                _weeks: {
+                    type: Array,
+                    computed: '_buildWeeks(_startDate)'
+                },
+                _jsMonth: { // 0 based
+                    type: Number,
+                    computed: '_getJsMonth(month)'
+                },
+                _firstDateOfMonth: {
+                    type: Object,
+                    computed: '_getFirstDateOfMonth(_jsMonth, year)'
+                },
+                _lastDateOfMonth: {
+                    type: Object,
+                    computed: '_getLastDateOfMonth(_jsMonth, year)'
+                },
+                _startDate: {
+                    type: Number,
+                    computed: '_getStartDate(_firstDateOfMonth, _jsMonth, year, startOfWeek)'
+                }
+            },
+
+            _buildWeeks (fromDate) {
+                return [0, 7, 14, 21, 28].map(offset => this._buildWeek(fromDate, offset));
+            },
+
+            _buildWeek (fromDate, offset) {
+                const base = (new Array(7)).fill();
+                const year = fromDate.getYear();
+                const month = fromDate.getMonth();
+                const date = fromDate.getDate();
+
+                const days = base
+                    .map((val, idx) => date + idx + offset)
+                    .map(day => new Date(year, month, day));
+
+                return { days };
+            },
+
+            _getJsMonth (month) {
+                return month - 1;
+            },
+
+            _getFirstDateOfMonth (month, year) {
+                return new Date(year, month, 1);
+            },
+
+            _getLastDateOfMonth (month, year) {
+                const endNumber = this._getMonthLength(month, year);
+                return new Date(year, month, endNumber);
+            },
+
+            _getMonthLength (month, year) {
+                // check leap year
+                if (month === 2) {
+                    const isLeapYear = (new Date(year, 1, 29)).getMonth() === 1;
+                    return isLeapYear ? 29 : 28;
+                }
+                const lengths = [31, null, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+                return lengths[month];
+            },
+
+            _getDay (date, startOfWeek) {
+                const offset = 7 - startOfWeek;
+                return (date.getDay() + offset) % 7;
+            },
+
+            _getStartDate (firstDateOfMonth, month, year, startOfWeek) {
+                const day = this._getDay(firstDateOfMonth, startOfWeek);
+                const offset = day === 0 ? 7 : day - 1;
+                const lastMonth = month === 0 ? 11 : month - 1;
+                const monthLength = this._getMonthLength(lastMonth, year);
+                if (month === 1) {
+                    return new Date(year - 1, lastMonth, monthLength - offset);
+                }
+                return new Date(year, lastMonth, monthLength - offset);
+            }
+        });
+    </script>
+</dom-module>
