@@ -8,36 +8,54 @@
     <template>
         <style>
             :host {
+                display: block;
+            }
+
+            .inner {
                 text-align: center;
+                position: relative;
+            }
+
+            .circle {
+                display: none;
+                position: absolute;
+                left: calc(50% - 1em - 1px);
+                top: calc(50% - 1em - 1px);
+                width: 2em;
+                height: 2em;
+                border: 1px solid rgba(55,55,55,0.6);
+                transform: rotate(45deg);
+            }
+
+            .inner.active .circle {
                 display: block;
             }
         </style>
-        [[number]]
+        <div class$="inner [[_activeClass(active)]]">[[number]]<span class="circle"></span></div>
     </template>
 
     <script>
         Polymer({
             is: 'pub-calendar-day',
             properties: {
-                date: Object,
+                date: {
+                    type: Object,
+                    value: null
+                },
                 number: {
                     type: Number,
+                    value: 0,
                     computed: '_getNumber(date)'
                 },
-                month: Object,
-                isOutsideMonth: {
-                    type: Boolean,
-                    computed: '_isOutsideMonth(date, month)',
-                    reflectToAttribute: true
-                }
+                active: Boolean
             },
 
             _getNumber (date) {
                 return date.getDate();
             },
 
-            _isOutsideMonth (date, month) {
-                return date.getMonth() !== month;
+            _activeClass (active) {
+                return active ? 'active' : '';
             }
         });
     </script>
