@@ -2,27 +2,27 @@
 
 <html>
     <head>
-        <title>eyas-polyform test</title>
+        <title>plain-picker test</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
         <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
         <script src="../../web-component-tester/browser.js"></script>
 
-        <link rel="import" href="../eyas-polyform.html">
+        <link rel="import" href="../plain-picker.html">
     </head>
     <body>
 
         <test-fixture id="basic">
             <template>
-                <eyas-polyform></eyas-polyform>
+                <plain-picker></plain-picker>
             </template>
         </test-fixture>
 
         <script>
-            describe('<eyas-polyform>', function() {
-                it('works', function() {
-                    const element = fixture('basic');
-                    expect(element.is).to.equal('eyas-polyform');
+            describe('<plain-picker>', () => {
+                it('works', () => {
+                    const basic = fixture('basic');
+                    expect(basic.is).to.equal('plain-picker');
                 });
             });
         </script>
