@@ -34,10 +34,10 @@
         <div class="week">
             <template is="dom-repeat"
                       items="[[_dates]]"
-                      as="_date">
-                <pub-calendar-day date="[[_date]]"
-                                  active="[[_isActive(_date, date)]]"
-                                  class$="day [[_getOutsideClass(_date, date)]]">
+                      as="date">
+                <pub-calendar-day date="[[date]]"
+                                  active="[[_isSameDate(date, activeDate)]]"
+                                  class$="day [[_getOutsideClass(date, activeDate)]]">
                 </pub-calendar-day>
             </template>
         </div>
@@ -49,7 +49,10 @@
 
             properties: {
                 startDate: Object,
-                date: Object,
+                activeDate: {
+                    type: Object,
+                    notify: true
+                },
                 startOfWeek: {
                     type: Number,
                     value: 1
@@ -60,7 +63,11 @@
                 }
             },
 
-            _isActive (date, activeDate) {
+            listeners: {
+                'pub-calendar-day-selected': '_onSelectDay'
+            },
+
+            _isSameDate (date, activeDate) {
                 return date.getDate() === activeDate.getDate() &&
                     date.getMonth() === activeDate.getMonth() &&
                     date.getFullYear() === activeDate.getFullYear();
@@ -77,6 +84,10 @@
 
             _getOutsideClass (date, activeDate) {
                 return date.getMonth() === activeDate.getMonth() ? '' : 'outside';
+            },
+
+            _onSelectDay (e, date) {
+                this.activeDate = date;
             }
         });
     </script>

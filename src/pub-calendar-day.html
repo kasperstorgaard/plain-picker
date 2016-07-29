@@ -12,12 +12,16 @@
             }
 
             .inner {
-                text-align: center;
                 position: relative;
             }
 
-            .circle {
-                display: none;
+            .inner:hover {
+                cursor: pointer;
+            }
+
+            .inner.active:before {
+                content: '';
+                display: block;
                 position: absolute;
                 left: calc(50% - 1em - 1px);
                 top: calc(50% - 1em - 1px);
@@ -25,13 +29,23 @@
                 height: 2em;
                 border: 1px solid rgba(55,55,55,0.6);
                 transform: rotate(45deg);
+                background: rgba(255,255,255,0.4);
+                z-index: 1;
             }
 
-            .inner.active .circle {
-                display: block;
+            .text {
+                text-align: center;
+                position: relative;
+                z-index: 2;
+            }
+
+            .inner:hover .text {
+                text-decoration: underline;
             }
         </style>
-        <div class$="inner [[_activeClass(active)]]">[[number]]<span class="circle"></span></div>
+        <div class$="inner [[_activeClass(active)]]">
+            <div class="text">[[number]]</div>
+        </div>
     </template>
 
     <script>
@@ -47,7 +61,14 @@
                     value: 0,
                     computed: '_getNumber(date)'
                 },
-                active: Boolean
+                active: {
+                    type: Boolean,
+                    notify: true
+                }
+            },
+
+            listeners: {
+                tap: '_onClick'
             },
 
             _getNumber (date) {
@@ -56,6 +77,11 @@
 
             _activeClass (active) {
                 return active ? 'active' : '';
+            },
+
+            _onClick () {
+                this.active = true;
+                this.fire('pub-calendar-day-selected', this.date);
             }
         });
     </script>
