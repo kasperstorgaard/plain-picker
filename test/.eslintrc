@@ -1,0 +1,9 @@
+{
+    "globals": {
+        "fixture",
+        "expect"
+    },
+    "rules": {
+        "no-unused-expressions": ["off"]
+    }
+}
