@@ -1,7 +1,7 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="./time-input.html">
 <link rel="import" href="./date-input.html">
-<link rel="import" href="./pub-calendar.html">
+<link rel="import" href="./pf-month.html">
 
 <!--
     `pub-time`
@@ -10,7 +10,7 @@
     @demo demo/pub-time.html 
 -->
 
-<dom-module id="pub-time">
+<dom-module id="pf-date-picker">
     <template>
         <style>
             :host {
@@ -20,13 +20,13 @@
         <h2>pub time</h2>
         <date-input></date-input>
         <time-input></time-input>
-        <pub-calendar>
-        </pub-calendar>
+        <pf-month>
+        </pf-month>
     </template>
 
     <script>
         Polymer({
-            is: 'pub-time',
+            is: 'pf-date-picker',
             properties: {
             }
         });

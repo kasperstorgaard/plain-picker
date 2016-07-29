@@ -1,6 +1,5 @@
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="./pub-calendar-day.html">
-<link rel="import" href="./pub-calendar-week.html">
+<link rel="import" href="./pf-week.html">
 
 <!--
     `calendar-month`
@@ -9,7 +8,7 @@
     @demo demo/calendar-month.html 
 -->
 
-<dom-module id="pub-calendar">
+<dom-module id="pf-month">
     <template>
         <style>
             :host {
@@ -23,22 +22,23 @@
         <div id="table">
             <template is="dom-repeat" 
                       items="[[_weekDates]]"
-                      as="_date">
-                <pub-calendar-week 
-                    start-date="[[_date]]"
-                    active-date="{{date}}"
+                      as="date">
+                <pf-week 
+                    start-date="[[date]]"
+                    active-date="{{activeDate}}"
                     class="week">
-                </pub-calendar-week>
+                </pf-week>
             </template>
         </div>
     </template>
 
     <script>
         Polymer({
-            is: 'pub-calendar',
+            is: 'pf-month',
             properties: {
-                date: {
+                activeDate: {
                     type: Object,
+                    notify: true,
                     value: () => new Date()
                 },
                 startOfWeek: {
@@ -51,7 +51,7 @@
                 },
                 _startDate: {
                     type: Number,
-                    computed: '_getStartDate(date, startOfWeek)'
+                    computed: '_getStartDate(activeDate, startOfWeek)'
                 }
             },
 

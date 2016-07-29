@@ -1,13 +1,13 @@
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="./pub-calendar-day.html">
+<link rel="import" href="./pf-day.html">
 
 <!--
-    `pub-calendar-week`
+    `pf-week`
 
-    @demo demo/pub-calendar-week.html 
+    @demo demo/pf-week.html 
 -->
 
-<dom-module id="pub-calendar-week">
+<dom-module id="pf-week">
     <template>
         <style>
             :host {
@@ -35,17 +35,17 @@
             <template is="dom-repeat"
                       items="[[_dates]]"
                       as="date">
-                <pub-calendar-day date="[[date]]"
+                <pf-day date="[[date]]"
                                   active="[[_isSameDate(date, activeDate)]]"
                                   class$="day [[_getOutsideClass(date, activeDate)]]">
-                </pub-calendar-day>
+                </pf-day>
             </template>
         </div>
     </template>
 
     <script>
         Polymer({
-            is: 'pub-calendar-week',
+            is: 'pf-week',
 
             properties: {
                 startDate: Object,
@@ -64,7 +64,7 @@
             },
 
             listeners: {
-                'pub-calendar-day-selected': '_onSelectDay'
+                'pf-day-selected': '_onSelectDay'
             },
 
             _isSameDate (date, activeDate) {

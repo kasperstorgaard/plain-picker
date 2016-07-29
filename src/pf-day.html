@@ -1,10 +1,10 @@
 <link rel="import" href="../../polymer/polymer.html">
 
 <!--
-    `pub-calendar-day`
+    `pf-day`
 -->
 
-<dom-module id="pub-calendar-day">
+<dom-module id="pf-day">
     <template>
         <style>
             :host {
@@ -50,7 +50,7 @@
 
     <script>
         Polymer({
-            is: 'pub-calendar-day',
+            is: 'pf-day',
             properties: {
                 date: {
                     type: Object,
@@ -81,7 +81,7 @@
 
             _onClick () {
                 this.active = true;
-                this.fire('pub-calendar-day-selected', this.date);
+                this.fire('pf-day-selected', this.date);
             }
         });
     </script>
