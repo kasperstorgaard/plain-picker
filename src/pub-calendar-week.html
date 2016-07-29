@@ -1,0 +1,83 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="./pub-calendar-day.html">
+
+<!--
+    `pub-calendar-week`
+
+    @demo demo/pub-calendar-week.html 
+-->
+
+<dom-module id="pub-calendar-week">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+
+            .week {
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                color: black;
+            }
+
+            .day {
+                width: 100%;
+                line-height: 3em;
+                font-family: monospace;
+            }
+            
+            .day.outside {
+                color: rgba(55,55,55,0.6);
+            }
+        </style>
+        <div class="week">
+            <template is="dom-repeat"
+                      items="[[_dates]]"
+                      as="_date">
+                <pub-calendar-day date="[[_date]]"
+                                  active="[[_isActive(_date, date)]]"
+                                  class$="day [[_getOutsideClass(_date, date)]]">
+                </pub-calendar-day>
+            </template>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'pub-calendar-week',
+
+            properties: {
+                startDate: Object,
+                date: Object,
+                startOfWeek: {
+                    type: Number,
+                    value: 1
+                },
+                _dates: {
+                    type: Array,
+                    computed: '_buildDates(startDate)'
+                }
+            },
+
+            _isActive (date, activeDate) {
+                return date.getDate() === activeDate.getDate() &&
+                    date.getMonth() === activeDate.getMonth() &&
+                    date.getFullYear() === activeDate.getFullYear();
+            },
+
+            _buildDates (fromDate) {
+                const offsets = [0, 1, 2, 3, 4, 5, 6];
+                const year = fromDate.getFullYear();
+                const month = fromDate.getMonth();
+                const date = fromDate.getDate();
+
+                return offsets.map(offset => new Date(year, month, date + offset));
+            },
+
+            _getOutsideClass (date, activeDate) {
+                return date.getMonth() === activeDate.getMonth() ? '' : 'outside';
+            }
+        });
+    </script>
+</dom-module>
