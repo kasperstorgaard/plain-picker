@@ -1,5 +1,5 @@
 {
-  "name": "polyform",
+  "name": "plain-picker",
   "description": "test for elements in polymer",
   "main": "plain-picker.html",
   "dependencies": {
