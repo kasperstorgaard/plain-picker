@@ -1,0 +1,30 @@
+<link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="src/date-input.html">
+<link rel="import" href="src/pp-month.html">
+
+<!--
+    `pp-month`
+
+    @demo demo/pp-month.html 
+-->
+
+<dom-module id="plain-picker">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <date-input></date-input>
+        <pp-month>
+        </pp-month>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'plain-picker',
+            properties: {
+            }
+        });
+    </script>
+</dom-module>

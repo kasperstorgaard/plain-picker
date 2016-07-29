@@ -1,7 +1,7 @@
 {
-  "name": "eyas-polyform",
+  "name": "polyform",
   "description": "test for elements in polymer",
-  "main": "eyas-polyform.html",
+  "main": "plain-picker.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
     "iron-form": "^1.1.1",

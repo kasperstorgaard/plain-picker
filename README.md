@@ -1,4 +1,4 @@
-# \<eyas-polyform\>
+# \<plain-picker\>
 
   "description": "test for elements in polymer",
     

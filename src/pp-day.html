@@ -1,24 +1,21 @@
 <link rel="import" href="../../polymer/polymer.html">
 
 <!--
-    `pf-day`
+    `pp-day`
 -->
 
-<dom-module id="pf-day">
+<dom-module id="pp-day">
     <template>
         <style>
             :host {
                 display: block;
             }
-
             .inner {
                 position: relative;
             }
-
             .inner:hover {
                 cursor: pointer;
             }
-
             .inner.active:before {
                 content: '';
                 display: block;
@@ -32,13 +29,11 @@
                 background: rgba(255,255,255,0.4);
                 z-index: 1;
             }
-
             .text {
                 text-align: center;
                 position: relative;
                 z-index: 2;
             }
-
             .inner:hover .text {
                 text-decoration: underline;
             }
@@ -50,7 +45,7 @@
 
     <script>
         Polymer({
-            is: 'pf-day',
+            is: 'pp-day',
             properties: {
                 date: {
                     type: Object,
@@ -66,22 +61,18 @@
                     notify: true
                 }
             },
-
             listeners: {
                 tap: '_onClick'
             },
-
             _getNumber (date) {
                 return date.getDate();
             },
-
             _activeClass (active) {
                 return active ? 'active' : '';
             },
-
             _onClick () {
                 this.active = true;
-                this.fire('pf-day-selected', this.date);
+                this.fire('pp-day-selected', this.date);
             }
         });
     </script>

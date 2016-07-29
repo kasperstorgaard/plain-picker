@@ -1,32 +1,32 @@
 {
-  "name": "eyas-polyform",
+  "name": "plain-picker",
   "version": "0.1.0",
-  "description": "test for elements in polymer",
+  "description": "datepicker in polymer",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "polymer test",
-    "lint": "polymer lint && eslint eyas-polyform.html",
+    "lint": "polymer lint && eslint plain-picker.html",
     "hooks": "sudo chmod +x hooks/*; cp hooks/* .git/hooks/",
     "serve": "polymer serve"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FalconSocial/eyas-polyform.git"
+    "url": "git+https://github.com/kasperstorgaard/plain-picker.git"
   },
   "keywords": [
     "falcon",
     "component",
     "polymer"
   ],
-  "author": "FalconSocial",
+  "author": "kasperstorgaard",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/FalconSocial/eyas-polyform/issues"
+    "url": "https://github.com/kasperstorgaard/plain-picker/issues"
   },
-  "homepage": "https://github.com/FalconSocial/eyas-polyform#readme",
+  "homepage": "https://github.com/kasperstorgaard/plain-picker#readme",
   "devDependencies": {
     "eslint": "^3.0.1",
     "eslint-config-airbnb": "^9.0.1",
