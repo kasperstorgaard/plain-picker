@@ -1,42 +1,63 @@
 <!doctype html>
+
 <html>
+    <head>
+        <title>pp-month test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+        <script src="../../web-component-tester/browser.js"></script>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <link rel="import" href="../src/pp-month.html">
+    </head>
+    <body>
 
-    <link rel="import" href="../../polymer/polymer.html">
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../test-fixture/test-fixture-mocha.js"></script>
+        <test-fixture id="basic">
+            <template>
+                <pp-month></pp-month>
+            </template>
+        </test-fixture>
 
-    <link rel="import" href="../src/pp-month.html">
-</head>
+        <script>
+            describe('<pp-month>', () => {
+                it('works', () => {
+                    const element = fixture('basic');
+                    expect(element.is).to.equal('pp-month');
+                });
 
-<body>
-    <test-fixture id="basic">
-        <template>
-            <pp-month
-            ></pp-month>
-        </template>
-    </test-fixture>
-
-    <script>
-        describe('<pp-month>', () => {
-            let basic;
-            beforeEach(() => {
-                basic = fixture('basic');
-            });
-
-            context('props', () => {
-                describe('.name', () => {
+                context('.activeDate', () => {
                     it('is defined', () => {
-                        expect(basic.name).to.be.defined;
+                        const element = fixture('basic');
+                        expect(element.activeDate).to.be.defined;
+                    });
+
+                    it('defaults to current date', () => {
+                        const element = fixture('basic');
+                        const now = new Date();
+
+                        const ymd = date => {
+                            const y = date.getFullYear();
+                            const m = date.getMonth();
+                            const d = date.getDate();
+                            return `${y}-${m}-${d}`;
+                        };
+
+                        expect(ymd(element.activeDate)).to.equal(ymd(now));
+                    });
+
+                    it('notifies', () => {
+                        const element = fixture('basic');
+                        const spy = sinon.spy();
+                        element.addEventListener('active-date-changed', spy);
+                        element.set('activeDate', new Date(1984, 0, 1));
+                        expect(spy).to.have.been.calledOnce;
                     });
                 });
-            });
-        });
-    </script>
-</body>
 
+                context('.startOfWeek', () => {
+
+                });
+            });
+        </script>
+    </body>
 </html>
