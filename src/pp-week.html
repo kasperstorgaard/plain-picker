@@ -12,21 +12,17 @@
         <style>
             :host {
                 display: block;
+                padding: 0 1.4286em; /* 20 px on 14px font size */
             }
 
             .week {
                 width: 100%;
                 display: flex;
                 justify-content: space-around;
-                color: black;
-            }
-
-            .day {
-                line-height: 2em;
             }
             
             .day.outside {
-                color: rgba(55,55,55,0.6);
+                opacity: 0.6;
             }
         </style>
         <div class="week">
