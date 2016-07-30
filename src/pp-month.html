@@ -72,8 +72,7 @@
                 const month = date.getMonth();
                 const firstDate = new Date(year, month, 1);
                 const day = this._getDay(firstDate, startOfWeek);
-                const offset = day === 0 ? 7 : day - 1;
-                return new Date(year, month, 1 - offset);
+                return new Date(year, month, 1 - day);
             }
         });
     </script>
