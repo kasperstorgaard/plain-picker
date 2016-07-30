@@ -8,21 +8,75 @@
 
         <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
         <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+        <link rel="import" href="../../paper-tabs/paper-tabs.html">
+        <link rel="import" href="../../paper-tabs/paper-tab.html">
 
         <link rel="import" href="../plain-picker.html">
 
         <style is="custom-style" include="demo-pages-shared-styles">
+            plain-picker {
+                font-family: monospace;
+            }
+
+            #colored-bg-snippet plain-picker {
+                margin: -20px;
+                padding: 20px;
+            }
+
+            paper-tab[name=lightblue] {
+                background: lightblue;
+            }
+
+            paper-tab[name=lightpink] {
+                background: lightpink;
+            }
+
+            paper-tab[name=turquoise] {
+                background: turquoise;
+            }
         </style>
     </head>
     <body>
-
-            <h3>Basic plain-picker Demo</h3>
+        <div class="vertical-section-container centered">
+            <h3>Basic <code>plain-picker</code></h3>
             <demo-snippet>
                 <template>
                     <plain-picker></plain-picker>
                 </template>
             </demo-snippet>
-        </div>
 
+            <h3>On light backgrounds</h3>
+            <paper-tabs id="colored-bg-tabs" selected="lightblue" attr-for-selected="name">
+                <paper-tab name="lightblue">blue</paper-tab>
+                <paper-tab name="turquoise">turquoise</paper-tab>
+                <paper-tab name="lightpink">pink</paper-tab>
+            </paper-tabs>
+            <demo-snippet id="colored-bg-snippet">
+                <template>
+                    <plain-picker></plain-picker>
+                </template>
+            </demo-snippet>
+
+            <script>
+                addEventListener('WebComponentsReady', () => {
+                    const picker = document.getElementById('colored-bg-snippet').querySelector('plain-picker');
+                    const tabs = document.getElementById('colored-bg-tabs');
+
+                    function setBg (color) {
+                        picker.style.background = color;
+                    }
+
+                    setBg(tabs.selected);
+                    tabs.addEventListener('selected-changed', e => setBg(e.detail.value));
+                });
+            </script>
+
+            <h3>Set the <code>start-of-week</code> attribute to match user region</h3>
+            <demo-snippet>
+                <template>
+                    <plain-picker start-of-week="0"></plain-picker>
+                </template>
+            </demo-snippet>
+        </div>
     </body>
 </html>
