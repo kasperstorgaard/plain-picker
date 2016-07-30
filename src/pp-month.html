@@ -12,24 +12,21 @@
     <template>
         <style>
             :host {
-                display: block;
-            }
-
-            .table {
-                border: 1px solid black;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                height: 16em;
             }
         </style>
-        <div id="table">
-            <template is="dom-repeat" 
-                      items="[[_weekDates]]"
-                      as="date">
-                <pp-week 
-                    start-date="[[date]]"
-                    active-date="{{activeDate}}"
-                    class="week">
-                </pp-week>
-            </template>
-        </div>
+        <template is="dom-repeat" 
+                  items="[[_weekDates]]"
+                  as="date">
+            <pp-week 
+                start-date="[[date]]"
+                active-date="{{activeDate}}"
+                class="week">
+            </pp-week>
+        </template>
     </template>
 
     <script>

@@ -11,31 +11,23 @@
     <template>
         <style>
             :host {
-                display: block;
-                padding: 0 1.4286em; /* 20 px on 14px font size */
+                display: flex;
+                width: 100%;
+                justify-content: space-around;
             }
 
-            .week {
-                width: 100%;
-                display: flex;
-                justify-content: space-around;
-                line-height: 2em;
-            }
-            
             .day.outside {
                 opacity: 0.5;
             }
         </style>
-        <div class="week">
-            <template is="dom-repeat"
-                      items="[[_dates]]"
-                      as="date">
-                <pp-day date="[[date]]"
-                                  active="[[_isSameDate(date, activeDate)]]"
-                                  class$="day [[_getOutsideClass(date, activeDate)]]">
-                </pp-day>
-            </template>
-        </div>
+        <template is="dom-repeat"
+                  items="[[_dates]]"
+                  as="date">
+            <pp-day date="[[date]]"
+                              active="[[_isSameDate(date, activeDate)]]"
+                              class$="day [[_getOutsideClass(date, activeDate)]]">
+            </pp-day>
+        </template>
     </template>
 
     <script>
