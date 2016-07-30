@@ -15,27 +15,27 @@
             }
             .inner:hover {
                 cursor: pointer;
+                text-decoration: underline;
             }
+
             .inner.active:before {
                 content: '';
                 display: block;
                 position: absolute;
-                left: calc(50% - 0.75em);
+                left: calc(50% - 0.75em - 1px);
                 top: calc(50% - 0.75em);
                 width: 1.5em;
                 height: 1.5em;
-                outline: 1px solid rgba(55,55,55,0.6);
-                transform: rotate(45deg);
+                border: 1px solid rgba(55,55,55,0.6);
                 background: rgba(255,255,255,0.4);
                 z-index: 1;
+                border-radius: 1em;
             }
+
             .text {
                 text-align: center;
                 position: relative;
                 z-index: 2;
-            }
-            .inner:hover {
-                text-decoration: underline;
             }
         </style>
         <div class$="inner [[_activeClass(active)]]">
