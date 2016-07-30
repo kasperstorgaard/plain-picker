@@ -15,6 +15,7 @@
                 border-radius: 2em;
                 text-align: center;
                 width: 2em;
+                border: 1px solid transparent;
             }
             .inner:hover {
                 cursor: pointer;
@@ -22,8 +23,7 @@
             }
 
             .inner.active {
-                border: 1px solid black;
-                margin: calc(0.5em - 1px) auto;
+                border-color: black;
             }
         </style>
         <div class$="inner [[_activeClass(active)]]">[[number]]</div>
