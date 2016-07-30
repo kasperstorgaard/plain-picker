@@ -1,6 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="src/pp-month.html">
-
 <!--
     `plain-picker`
 
@@ -14,7 +13,7 @@
                 display: block;
             }
         </style>
-        <pp-month>
+        <pp-month start-of-week="[[startOfWeek]]">
         </pp-month>
     </template>
 
@@ -22,6 +21,7 @@
         Polymer({
             is: 'plain-picker',
             properties: {
+                startOfWeek: Number
             }
         });
     </script>

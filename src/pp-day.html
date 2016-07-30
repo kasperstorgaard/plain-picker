@@ -11,36 +11,22 @@
                 display: block;
             }
             .inner {
-                position: relative;
+                margin: 0.5em auto;
+                border-radius: 2em;
+                text-align: center;
+                width: 2em;
             }
             .inner:hover {
                 cursor: pointer;
                 text-decoration: underline;
             }
 
-            .inner.active:before {
-                content: '';
-                display: block;
-                position: absolute;
-                left: calc(50% - 0.75em - 1px);
-                top: calc(50% - 0.75em);
-                width: 1.5em;
-                height: 1.5em;
-                border: 1px solid rgba(55,55,55,0.6);
-                background: rgba(255,255,255,0.4);
-                z-index: 1;
-                border-radius: 1em;
-            }
-
-            .text {
-                text-align: center;
-                position: relative;
-                z-index: 2;
+            .inner.active {
+                border: 1px solid black;
+                margin: calc(0.5em - 1px) auto;
             }
         </style>
-        <div class$="inner [[_activeClass(active)]]">
-            <div class="text">[[number]]</div>
-        </div>
+        <div class$="inner [[_activeClass(active)]]">[[number]]</div>
     </template>
 
     <script>
