@@ -1,7 +1,7 @@
 {
   "name": "plain-picker",
   "version": "0.1.0",
-  "description": "datepicker in polymer",
+  "description": "plain datepicker in polymer",
   "main": "index.js",
   "directories": {
     "test": "test"

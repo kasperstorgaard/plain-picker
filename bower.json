@@ -1,6 +1,6 @@
 {
   "name": "plain-picker",
-  "description": "test for elements in polymer",
+  "description": "A plain datepicker in polymer",
   "main": "plain-picker.html",
   "dependencies": {
     "polymer": "Polymer/polymer#^1.4.0",
