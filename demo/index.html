@@ -15,22 +15,7 @@
 
         <style is="custom-style" include="demo-pages-shared-styles">
             plain-picker {
-                font-family: monospace;
-            }
-
-            #colored-bg-snippet #container {
                 margin: -20px;
-                padding: 20px;
-            }
-
-            .bluebg {
-                background: lightblue !important;
-            }
-            .pinkbg {
-                background: lightpink !important;
-            }
-            .turquoisebg {
-                background: turquoise !important;
             }
         </style>
     </head>
@@ -52,27 +37,29 @@
             <demo-snippet id="colored-bg-snippet">
                 <template>
                     <style>
-                        #container {
-                            background: lightblue;
-                        }
+                        .bluebg { background: lightblue; }
+                        .turquoisebg { background: turquoise; }
+                        .pinkbg { background: lightpink; }
                     </style>
-                    <div id="container">
-                        <plain-picker></plain-picker>
-                    </div>
+                    <plain-picker class="bluebg"></plain-picker>
                 </template>
             </demo-snippet>
 
             <script>
                 addEventListener('WebComponentsReady', () => {
-                    const container = document.getElementById('colored-bg-snippet').querySelector('#container');
+                    const picker = document.getElementById('colored-bg-snippet')
+                        .querySelector('plain-picker');
                     const tabs = document.getElementById('colored-bg-tabs');
 
-                    function setContainerClass (className) {
-                        container.className = `${className}bg`;
+                    let prev = `${tabs.selected}bg`;
+                    function setPickerClass (color) {
+                        picker.classList.remove(prev);
+                        const className = `${color}bg`;
+                        picker.classList.add(className);
+                        prev = className;
                     }
 
-                    setContainerClass(tabs.selected);
-                    tabs.addEventListener('selected-changed', e => setContainerClass(e.detail.value));
+                    tabs.addEventListener('selected-changed', e => setPickerClass(e.detail.value));
                 });
             </script>
 
