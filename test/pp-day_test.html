@@ -1,39 +1,29 @@
 <!doctype html>
 <html>
+    <head>
+        <title>pp-day test</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+        <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+        <script src="../../web-component-tester/browser.js"></script>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+        <link rel="import" href="../src/pp-day.html">
+    </head>
+    <body>
 
-    <link rel="import" href="../../polymer/polymer.html">
-    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
-    <script src="../../web-component-tester/browser.js"></script>
-    <script src="../../test-fixture/test-fixture-mocha.js"></script>
+        <test-fixture id="basic">
+            <template>
+                <pp-day></pp-day>
+            </template>
+        </test-fixture>
 
-    <link rel="import" href="../src/pp-day.html">
-</head>
-
-<body>
-    <test-fixture id="basic">
-        <template>
-            <pp-day
-            ></pp-day>
-        </template>
-    </test-fixture>
-
-    <script>
-        describe('<pp-day>', () => {
-            let basic;
-            beforeEach(() => {
-                basic = fixture('basic');
-            });
-
-            context('properties', () => {
-                describe('name', () => {
+        <script>
+            describe('<pp-day>', () => {
+                it('works', () => {
+                    const element = fixture('basic');
+                    expect(element.is).to.equal('pp-day');
                 });
             });
-        });
-    </script>
-</body>
-
+        </script>
+    </body>
 </html>
