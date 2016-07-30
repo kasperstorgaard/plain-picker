@@ -18,21 +18,19 @@
                 font-family: monospace;
             }
 
-            #colored-bg-snippet plain-picker {
+            #colored-bg-snippet #container {
                 margin: -20px;
                 padding: 20px;
             }
 
-            paper-tab[name=lightblue] {
-                background: lightblue;
+            .bluebg {
+                background: lightblue !important;
             }
-
-            paper-tab[name=lightpink] {
-                background: lightpink;
+            .pinkbg {
+                background: lightpink !important;
             }
-
-            paper-tab[name=turquoise] {
-                background: turquoise;
+            .turquoisebg {
+                background: turquoise !important;
             }
         </style>
     </head>
@@ -46,28 +44,35 @@
             </demo-snippet>
 
             <h3>On light backgrounds</h3>
-            <paper-tabs id="colored-bg-tabs" selected="lightblue" attr-for-selected="name">
-                <paper-tab name="lightblue">blue</paper-tab>
-                <paper-tab name="turquoise">turquoise</paper-tab>
-                <paper-tab name="lightpink">pink</paper-tab>
+            <paper-tabs id="colored-bg-tabs" selected="blue" attr-for-selected="name">
+                <paper-tab name="blue" class="bluebg">blue</paper-tab>
+                <paper-tab name="turquoise" class="turquoisebg">turquoise</paper-tab>
+                <paper-tab name="pink" class="pinkbg">pink</paper-tab>
             </paper-tabs>
             <demo-snippet id="colored-bg-snippet">
                 <template>
-                    <plain-picker></plain-picker>
+                    <style>
+                        #container {
+                            background: lightblue;
+                        }
+                    </style>
+                    <div id="container">
+                        <plain-picker></plain-picker>
+                    </div>
                 </template>
             </demo-snippet>
 
             <script>
                 addEventListener('WebComponentsReady', () => {
-                    const picker = document.getElementById('colored-bg-snippet').querySelector('plain-picker');
+                    const container = document.getElementById('colored-bg-snippet').querySelector('#container');
                     const tabs = document.getElementById('colored-bg-tabs');
 
-                    function setBg (color) {
-                        picker.style.background = color;
+                    function setContainerClass (className) {
+                        container.className = `${className}bg`;
                     }
 
-                    setBg(tabs.selected);
-                    tabs.addEventListener('selected-changed', e => setBg(e.detail.value));
+                    setContainerClass(tabs.selected);
+                    tabs.addEventListener('selected-changed', e => setContainerClass(e.detail.value));
                 });
             </script>
 
