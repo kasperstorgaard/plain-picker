@@ -10,20 +10,24 @@
             :host {
                 display: block;
                 line-height: 2em;
+                padding: 0.3em;
+                color: var(--plain-picker-base-color, black);
             }
+            :host:hover {
+                cursor: pointer;
+            }
+
             .inner {
                 border-radius: 100%;
                 text-align: center;
                 width: 2em;
                 border: 1px solid transparent;
-            }
-            .inner:hover {
-                cursor: pointer;
-                text-decoration: underline;
+                @apply(--plain-picker-day);
             }
 
             .inner.active {
-                border-color: black;
+                border-color: var(--plain-picker-base-color, black);
+                @apply(--plain-picker-active-day);
             }
         </style>
         <div class$="inner [[_activeClass(active)]]">[[number]]</div>
