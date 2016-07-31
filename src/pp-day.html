@@ -13,6 +13,7 @@
                 padding: 0.3em;
                 color: var(--plain-picker-base-color, black);
             }
+
             :host:hover {
                 cursor: pointer;
             }
@@ -25,12 +26,12 @@
                 @apply(--plain-picker-day);
             }
 
-            .inner.active {
+            :host[selected] .inner {
                 border-color: var(--plain-picker-base-color, black);
-                @apply(--plain-picker-active-day);
+                @apply(--plain-picker-day-selected);
             }
         </style>
-        <div class$="inner [[_activeClass(active)]]">[[number]]</div>
+        <div class="inner">[[number]]</div>
     </template>
 
     <script>
@@ -45,24 +46,10 @@
                     type: Number,
                     value: 0,
                     computed: '_getNumber(date)'
-                },
-                active: {
-                    type: Boolean,
-                    notify: true
                 }
-            },
-            listeners: {
-                tap: '_onClick'
             },
             _getNumber (date) {
                 return date.getDate();
-            },
-            _activeClass (active) {
-                return active ? 'active' : '';
-            },
-            _onClick () {
-                this.active = true;
-                this.fire('pp-day-selected', this.date);
             }
         });
     </script>

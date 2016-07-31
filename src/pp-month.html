@@ -1,5 +1,5 @@
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="./pp-week.html">
+<link rel="import" href="./pp-day.html">
 
 <!--
     `calendar-month`
@@ -17,15 +17,31 @@
                 justify-content: space-around;
                 height: 16em;
             }
+
+            .week {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            pp-day.outside {
+                opacity: 0.5;
+            }
         </style>
         <template is="dom-repeat" 
                   items="[[weeks]]"
                   as="week">
-            <pp-week 
-                start-date="[[week.start]]"
-                active-date="{{activeDate}}"
-                class="week">
-            </pp-week>
+            <div class="week">
+                <template is="dom-repeat"
+                          items="[[week]]"
+                          as="date">
+                    <pp-day date="[[date]]"
+                            selected$="[[_isSameDate(date, activeDate)]]"
+                            class$="day [[_getOutsideClass(date, activeDate)]]">
+                    </pp-day>
+                </template>
+            </div>
         </template>
     </template>
 
@@ -68,12 +84,21 @@
             },
 
             _buildWeeks (fromDate) {
+                const weekOffsets = [0, 1, 2, 3, 4];
+                return weekOffsets
+                    .map(weekOffset => this._buildWeek(fromDate, weekOffset));
+            },
+
+            _buildWeek (fromDate, weekOffset) {
                 const year = fromDate.getFullYear();
                 const month = fromDate.getMonth();
                 const date = fromDate.getDate();
-                return [0, 7, 14, 21, 28].map(offset => ({
-                    start: new Date(year, month, date + offset)
-                }));
+
+                const dayOffsets = [0, 1, 2, 3, 4, 5, 6];
+                return dayOffsets.map(dayOffset => {
+                    const offset = weekOffset * 7 + dayOffset;
+                    return new Date(year, month, date + offset);
+                });
             },
 
             _getDay (date, startOfWeek) {
@@ -93,6 +118,25 @@
                 const date = startDate.getDate();
                 const days = 7 * 5 - 1;
                 return new Date(year, month, date + days);
+            },
+
+            _buildDates (fromDate) {
+                const offsets = [0, 1, 2, 3, 4, 5, 6];
+                const year = fromDate.getFullYear();
+                const month = fromDate.getMonth();
+                const date = fromDate.getDate();
+
+                return offsets.map(offset => new Date(year, month, date + offset));
+            },
+
+            _isSameDate (date, activeDate) {
+                return date.getDate() === activeDate.getDate() &&
+                    date.getMonth() === activeDate.getMonth() &&
+                    date.getFullYear() === activeDate.getFullYear();
+            },
+
+            _getOutsideClass (date, activeDate) {
+                return date.getMonth() === activeDate.getMonth() ? '' : 'outside';
             }
         });
     </script>
