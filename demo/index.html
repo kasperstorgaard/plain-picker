@@ -29,20 +29,20 @@
             </demo-snippet>
 
             <h3>On light backgrounds</h3>
-            <paper-tabs id="colored-bg-tabs" selected="blue" attr-for-selected="name">
-                <paper-tab name="blue" class="bluebg">blue</paper-tab>
-                <paper-tab name="turquoise" class="turquoisebg">turquoise</paper-tab>
-                <paper-tab name="pink" class="pinkbg">pink</paper-tab>
+            <paper-tabs id="colored-bg-tabs">
+                <paper-tab class="bg0">blue</paper-tab>
+                <paper-tab class="bg1">turquoise</paper-tab>
+                <paper-tab class="bg2">pink</paper-tab>
             </paper-tabs>
             <demo-snippet id="colored-bg-snippet">
                 <template>
-                    <style>
+                    <style is="custom-style">
                         plain-picker { transition: background-color 250ms ease-in-out; }
-                        .bluebg { background: lightblue; }
-                        .turquoisebg { background: turquoise; }
-                        .pinkbg { background: lightpink; }
+                        .bg0 { background: lightblue; }
+                        .bg1 { background: turquoise; }
+                        .bg2 { background: lightpink; }
                     </style>
-                    <plain-picker class="bluebg"></plain-picker>
+                    <plain-picker class="bg0"></plain-picker>
                 </template>
             </demo-snippet>
 
@@ -52,17 +52,33 @@
                         .querySelector('plain-picker');
                     const tabs = document.getElementById('colored-bg-tabs');
 
-                    let prev = `${tabs.selected}bg`;
-                    function setPickerClass (color) {
-                        picker.classList.remove(prev);
-                        const className = `${color}bg`;
-                        picker.classList.add(className);
-                        prev = className;
-                    }
-
-                    tabs.addEventListener('selected-changed', e => setPickerClass(e.detail.value));
+                    tabs.addEventListener('selected-changed', e => {
+                        picker.classList.remove('bg0', 'bg1', 'bg2');
+                        picker.classList.add(`bg${e.detail.value}`);
+                    });
                 });
             </script>
+            
+            <h3>Overriding style variables/mixins</h3>
+            <demo-snippet>
+                <template>
+                    <style is="custom-style">
+                        plain-picker.custom {
+                            background: dimgrey;
+
+                            --plain-picker-day: {
+                                border-radius: 0; 
+                            }
+                            --plain-picker-active-day: {
+                                border-color: cyan lime yellow magenta;
+                            };
+                            --plain-picker-base-color: white;
+                        }
+                    </style>
+                    <plain-picker class="custom">
+                    </plain-picker>
+                </template>
+            </demo-snippet>
 
             <h3>Set the <code>start-of-week</code> attribute to match user region</h3>
             <demo-snippet>
