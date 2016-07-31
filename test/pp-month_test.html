@@ -18,8 +18,39 @@
             </template>
         </test-fixture>
 
+        <test-fixture id="jul2016_eu">
+            <template>
+                <pp-month year="2016" month="6"></pp-month>
+            </template>
+        </test-fixture>
+
+        <test-fixture id="jul2016_us">
+            <template>
+                <pp-month year="2016" month="6" start-of-week="0"></pp-month>
+            </template>
+        </test-fixture>
+
+        <test-fixture id="aug2016_eu">
+            <template>
+                <pp-month year="2016" month="7"></pp-month>
+            </template>
+        </test-fixture>
+
+        <test-fixture id="aug2016_us">
+            <template>
+                <pp-month year="2016" month="7" start-of-week="0"></pp-month>
+            </template>
+        </test-fixture>
+
         <script>
             describe('<pp-month>', () => {
+                function ymd (date) {
+                    const y = date.getFullYear();
+                    const m = date.getMonth();
+                    const d = date.getDate();
+                    return `${y}-${m}-${d}`;
+                }
+
                 it('works', () => {
                     const element = fixture('basic');
                     expect(element.is).to.equal('pp-month');
@@ -28,19 +59,13 @@
                 context('.activeDate', () => {
                     it('is defined', () => {
                         const element = fixture('basic');
-                        expect(element.activeDate).to.be.defined;
+                        expect(element).to.have.property('activeDate')
+                            .that.is.an.object;
                     });
 
                     it('defaults to current date', () => {
                         const element = fixture('basic');
                         const now = new Date();
-
-                        const ymd = date => {
-                            const y = date.getFullYear();
-                            const m = date.getMonth();
-                            const d = date.getDate();
-                            return `${y}-${m}-${d}`;
-                        };
 
                         expect(ymd(element.activeDate)).to.equal(ymd(now));
                     });
@@ -54,8 +79,160 @@
                     });
                 });
 
-                context('.startOfWeek', () => {
+                context('.year', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('year')
+                            .that.is.a.number;
+                    });
 
+                    it('defaults to current year', () => {
+                        const element = fixture('basic');
+                        const currentYear = (new Date()).getFullYear();
+                        expect(element.year).to.equal(currentYear);
+                    });
+                });
+
+                context('.month', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('month')
+                            .that.is.a.number;
+                    });
+
+                    it('defaults to current month', () => {
+                        const element = fixture('basic');
+                        const currentMonth = (new Date()).getMonth();
+                        expect(element.month).to.equal(currentMonth);
+                    });
+                });
+
+                context('.startDate', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('startDate')
+                            .that.is.an.object;
+                    });
+
+                    it('is readonly', () => {
+                        const element = fixture('basic');
+                        const fn = () => { element.set('startDate', null); };
+                        expect(fn).to.throw(/only a getter/);
+                    });
+
+                    it('doesn\'t wrap to prev month when 1st is monday', () => {
+                        const element = fixture('aug2016_eu');
+                        expect(element.startDate.getMonth()).to.equal(7);
+                    });
+
+                    it('wraps to prev month when 1st not monday', () => {
+                        const element = fixture('jul2016_eu');
+                        expect(element.startDate.getMonth()).to.equal(5);
+                    });
+
+                    it('matches start of week (jul eu)', () => {
+                        const element = fixture('jul2016_eu');
+                        const euStartOfWeek = 1;
+                        expect(element.startDate.getDay()).to.equal(euStartOfWeek);
+                    });
+
+                    it('matches start of week (aug eu)', () => {
+                        const element = fixture('aug2016_eu');
+                        const euStartOfWeek = 1;
+                        expect(element.startDate.getDay()).to.equal(euStartOfWeek);
+                    });
+
+                    it('matches start of week (jul us)', () => {
+                        const element = fixture('jul2016_us');
+                        const usStartOfWeek = 0;
+                        expect(element.startDate.getDay()).to.equal(usStartOfWeek);
+                    });
+
+                    it('matches start of week (aug us)', () => {
+                        const element = fixture('aug2016_us');
+                        const usStartOfWeek = 0;
+                        expect(element.startDate.getDay()).to.equal(usStartOfWeek);
+                    });
+                });
+
+                context('.endDate', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('endDate')
+                            .that.is.an.object;
+                    });
+
+                    it('is readonly', () => {
+                        const element = fixture('basic');
+                        const fn = () => { element.set('endDate', null); };
+                        expect(fn).to.throw(/only a getter/);
+                    });
+
+                    it('wraps to next month when last not sunday', () => {
+                        const element = fixture('aug2016_eu');
+                        expect(element.endDate.getMonth()).to.equal(8);
+                    });
+
+                    it('doesn\'t wrap to next month when last is sunday', () => {
+                        const element = fixture('jul2016_eu');
+                        expect(element.endDate.getMonth()).to.equal(6);
+                    });
+
+                    it('matches start of week (jul eu)', () => {
+                        const element = fixture('jul2016_eu');
+                        const euEndOfWeek = 0;
+                        expect(element.endDate.getDay()).to.equal(euEndOfWeek);
+                    });
+
+                    it('matches start of week (aug eu)', () => {
+                        const element = fixture('aug2016_eu');
+                        const euEndOfWeek = 0;
+                        expect(element.endDate.getDay()).to.equal(euEndOfWeek);
+                    });
+
+                    it('matches start of week (jul us)', () => {
+                        const element = fixture('jul2016_us');
+                        const usEndOfWeek = 6;
+                        expect(element.endDate.getDay()).to.equal(usEndOfWeek);
+                    });
+
+                    it('matches start of week (aug us)', () => {
+                        const element = fixture('aug2016_us');
+                        const usEndOfWeek = 6;
+                        expect(element.endDate.getDay()).to.equal(usEndOfWeek);
+                    });
+                });
+
+                context('.startOfWeek', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('startOfWeek')
+                            .that.is.a.number;
+                    });
+
+                    it('defaults to one', () => {
+                        const element = fixture('basic');
+                        expect(element.startOfWeek).to.be.one;
+                    });
+                });
+
+                context('.weeks', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('weeks')
+                            .that.is.an.array;
+                    });
+
+                    it('is readonly', () => {
+                        const element = fixture('basic');
+                        const fn = () => { element.set('weeks', null); };
+                        expect(fn).to.throw(/only a getter/);
+                    });
+
+                    it('has a length of 5', () => {
+                        const element = fixture('basic');
+                        expect(element.weeks.length).to.equal(5);
+                    });
                 });
             });
         </script>
