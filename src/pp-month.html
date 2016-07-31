@@ -1,9 +1,9 @@
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="../../iron-meta/iron-meta.html">
 <link rel="import" href="./pp-day.html">
 
 <!--
     `calendar-month`
-    a publish time input
 
     @demo demo/calendar-month.html 
 -->
@@ -29,6 +29,7 @@
                 opacity: 0.5;
             }
         </style>
+        <iron-meta key="locale" value="{{_locale}}"></iron-meta>
         <template is="dom-repeat" 
                   items="[[weeks]]"
                   as="week">
@@ -38,6 +39,7 @@
                           as="date">
                     <pp-day date="[[date]]"
                             selected$="[[_isSameDate(date, activeDate)]]"
+                            on-click="_dayClicked"
                             class$="day [[_getOutsideClass(date, activeDate)]]">
                     </pp-day>
                 </template>
@@ -62,28 +64,17 @@
                     type: Number,
                     value: () => (new Date()).getMonth()
                 },
-                startDate: {
-                    type: Number,
-                    notify: true,
-                    computed: '_getStartDate(year, month, startOfWeek)'
-                },
-                endDate: {
-                    type: Number,
-                    notify: true,
-                    computed: '_getEndDate(startDate)'
-                },
-                startOfWeek: {
-                    type: Number,
-                    value: 1
-                },
                 weeks: {
                     type: Array,
                     notify: true,
-                    computed: '_buildWeeks(startDate)'
-                }
+                    computed: '_buildWeeks(year, month)'
+                },
+                _locale: Object
             },
 
-            _buildWeeks (fromDate) {
+            _buildWeeks (year, month) {
+                const { startOfWeek } = this._locale || { startOfWeek: 1 };
+                const fromDate = this._getStartDate(year, month, startOfWeek);
                 const weekOffsets = [0, 1, 2, 3, 4];
                 return weekOffsets
                     .map(weekOffset => this._buildWeek(fromDate, weekOffset));
@@ -110,14 +101,6 @@
                 const firstDate = new Date(year, month, 1);
                 const day = this._getDay(firstDate, startOfWeek);
                 return new Date(year, month, 1 - day);
-            },
-
-            _getEndDate (startDate) {
-                const year = startDate.getFullYear();
-                const month = startDate.getMonth();
-                const date = startDate.getDate();
-                const days = 7 * 5 - 1;
-                return new Date(year, month, date + days);
             },
 
             _buildDates (fromDate) {
