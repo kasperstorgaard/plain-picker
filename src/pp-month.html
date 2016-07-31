@@ -48,10 +48,12 @@
                 },
                 startDate: {
                     type: Number,
+                    notify: true,
                     computed: '_getStartDate(year, month, startOfWeek)'
                 },
                 endDate: {
                     type: Number,
+                    notify: true,
                     computed: '_getEndDate(startDate)'
                 },
                 startOfWeek: {
@@ -60,6 +62,7 @@
                 },
                 weeks: {
                     type: Array,
+                    notify: true,
                     computed: '_buildWeeks(startDate)'
                 }
             },
