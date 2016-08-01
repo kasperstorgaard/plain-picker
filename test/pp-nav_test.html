@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>pp-nav test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../src/pp-nav.html">
+</head>
+
+<body>
+    <test-fixture id="basic">
+        <template>
+            <pp-nav
+            ></pp-nav>
+        </template>
+    </test-fixture>
+
+    <script>
+        describe('<pp-nav>', () => {
+            it('works', () => {
+                const element = fixture('basic');
+                expect(element.is).to.equal('pp-nav');
+            });
+
+            context('.date', () => {
+                it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('date')
+                        .that.is.an.object;
+                });
+
+                it('defaults to current date', () => {
+                    const element = fixture('basic');
+                    const now = new Date();
+
+                    expect(element.date.getDate()).to.equal(now.getDate());
+                });
+            });
+
+            context('.offset', () => {
+                it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('offset')
+                        .that.is.an.object;
+                });
+
+                it('defaults to 0', () => {
+                    const element = fixture('basic');
+                    expect(element.offset).to.be.zero;
+                });
+            });
+
+            context('.year', () => {
+                it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('year')
+                        .that.is.an.object;
+                });
+
+                it('notifies', () => {
+                    const element = fixture('basic');
+                    const spy = sinon.spy();
+                    element.addEventListener('year-changed', spy);
+                    element.set('date', new Date(1984, 0, 1));
+                    expect(spy).to.have.been.calledOnce;
+                });
+
+                it('is readonly', () => {
+                    const element = fixture('basic');
+                    const fn = () => { element.set('year', null); };
+                    expect(fn).to.throw(/only a getter/);
+                });
+
+                it('is year of .date', () => {
+                    const element = fixture('basic');
+                    const currentYear = element.date.getFullYear();
+                    expect(element.year).to.equal(currentYear);
+                });
+            });
+
+            context('.month', () => {
+                it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('month')
+                        .that.is.an.object;
+                });
+
+                it('notifies', () => {
+                    const element = fixture('basic');
+                    const spy = sinon.spy();
+                    element.addEventListener('month-changed', spy);
+                    const month = (element.date.getMonth() + 1) % 11;
+                    element.set('date', new Date(1984, month, 1));
+                    expect(spy).to.have.been.calledOnce;
+                });
+
+                it('is readonly', () => {
+                    const element = fixture('basic');
+                    const fn = () => { element.set('month', null); };
+                    expect(fn).to.throw(/only a getter/);
+                });
+
+                it('is month of .date', () => {
+                    const element = fixture('basic');
+                    const currentMonth = element.date.getMonth();
+                    expect(element.month).to.equal(currentMonth);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

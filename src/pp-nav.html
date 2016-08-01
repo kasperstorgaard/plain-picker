@@ -1,0 +1,40 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<dom-module id="pp-nav">
+    <template>
+        <style></style>
+    </template>
+    <script>
+        Polymer({
+            is: 'pp-nav',
+            properties: {
+                date: {
+                    type: Object,
+                    value: () => new Date()
+                },
+                offset: {
+                    type: Number,
+                    value: 0
+                },
+                year: {
+                    type: Number,
+                    notify: true,
+                    computed: '_getYear(date, offset)'
+                },
+                month: {
+                    type: Number,
+                    notify: true,
+                    computed: '_getMonth(date, offset)'
+                }
+            },
+
+            _getYear (date) {
+                return date.getFullYear();
+            },
+
+            _getMonth (date) {
+                return date.getMonth();
+            }
+        });
+    </script>
+</dom-module>
