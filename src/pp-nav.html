@@ -14,6 +14,7 @@
                 },
                 offset: {
                     type: Number,
+                    notify: true,
                     value: 0
                 },
                 year: {
@@ -28,12 +29,27 @@
                 }
             },
 
-            _getYear (date) {
-                return date.getFullYear();
+            _getOffsetDate (date, offset) {
+                const month = date.getMonth() + offset;
+                return new Date(date.getFullYear(), month, date.getDate());
             },
 
-            _getMonth (date) {
-                return date.getMonth();
+            _getYear (date, offset) {
+                return this._getOffsetDate(date, offset).getFullYear();
+            },
+
+            _getMonth (date, offset) {
+                return this._getOffsetDate(date, offset).getMonth();
+            },
+
+            next () {
+                this.offset++;
+                return this.offset;
+            },
+
+            prev () {
+                this.offset--;
+                return this.offset;
             }
         });
     </script>
