@@ -29,7 +29,7 @@
                 opacity: 0.5;
             }
         </style>
-        <iron-meta key="locale" value="{{_locale}}"></iron-meta>
+        <iron-meta id="meta"></iron-meta>
         <template is="dom-repeat" 
                   items="[[weeks]]"
                   as="week">
@@ -69,16 +69,20 @@
                     type: Array,
                     notify: true,
                     computed: '_buildWeeks(year, month)'
-                },
-                _locale: Object
+                }
             },
 
             _buildWeeks (year, month) {
-                const { startOfWeek } = this._locale || { startOfWeek: 1 };
-                const fromDate = this._getStartDate(year, month, startOfWeek);
+                const fromDate = this._getStartDate(year, month, this._startOfWeek);
                 const weekOffsets = [0, 1, 2, 3, 4];
                 return weekOffsets
                     .map(weekOffset => this._buildWeek(fromDate, weekOffset));
+            },
+
+            get _startOfWeek () {
+                const defaultLocale = { startOfWeek: 1 };
+                const locale = this.$.meta.byKey('locale');
+                return (locale || defaultLocale).startOfWeek;
             },
 
             _buildWeek (fromDate, weekOffset) {

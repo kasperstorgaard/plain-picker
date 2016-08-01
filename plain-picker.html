@@ -1,4 +1,5 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-meta/iron-meta.html">
 <link rel="import" href="src/pp-month.html">
 <!--
     `plain-picker`
@@ -14,15 +15,18 @@
                 padding: 1.4286em; /* 20 px on 14px font size */
             }
         </style>
-        <pp-month start-of-week="[[startOfWeek]]">
-        </pp-month>
+        <iron-meta key="locale" value="[[locale]]"></iron-meta>
+        <pp-month></pp-month>
     </template>
 
     <script>
         Polymer({
             is: 'plain-picker',
             properties: {
-                startOfWeek: Number
+                locale: {
+                    type: Object,
+                    value: () => ({ startOfWeek: 1 })
+                }
             }
         });
     </script>
