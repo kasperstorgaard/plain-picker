@@ -1,0 +1,25 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<dom-module id="pp-default-locale">
+    <script>
+        Polymer({
+            is: 'pp-default-locale',
+            properties: {
+                value: {
+                    type: Object,
+                    notify: true,
+                    readOnly: true,
+                    value: () => ({
+                        months: {
+                            shorthand: ['Jan', 'Feb', 'Mar', 'Apr', 'Maj', 'Jun', 'Jul', 'Aug', 'Sep',
+                            'Okt', 'Nov', 'Dec'],
+                            longhand: ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli',
+                            'August', 'September', 'Oktober', 'November', 'December']
+                        },
+                        startOfWeek: 1
+                    })
+                }
+            }
+        });
+    </script>
+</dom-module>

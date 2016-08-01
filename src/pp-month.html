@@ -1,5 +1,4 @@
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../../iron-meta/iron-meta.html">
 <link rel="import" href="./pp-day.html">
 
 <!--
@@ -28,9 +27,7 @@
             pp-day[outside] {
                 opacity: 0.5;
             }
-
         </style>
-        <iron-meta id="meta"></iron-meta>
         <template is="dom-repeat" 
                   items="[[weeks]]"
                   as="week">
@@ -69,21 +66,19 @@
                 weeks: {
                     type: Array,
                     notify: true,
-                    computed: '_buildWeeks(year, month)'
+                    computed: '_buildWeeks(year, month, locale.startOfWeek)'
+                },
+                locale: {
+                    type: Object,
+                    value: () => ({ startOfWeek: 1 })
                 }
             },
 
-            _buildWeeks (year, month) {
-                const fromDate = this._getStartDate(year, month, this._startOfWeek);
+            _buildWeeks (year, month, startOfWeek) {
+                const fromDate = this._getStartDate(year, month, startOfWeek);
                 const weekOffsets = [0, 1, 2, 3, 4];
                 return weekOffsets
                     .map(weekOffset => this._buildWeek(fromDate, weekOffset));
-            },
-
-            get _startOfWeek () {
-                const defaultLocale = { startOfWeek: 1 };
-                const locale = this.$.meta.byKey('locale');
-                return (locale || defaultLocale).startOfWeek;
             },
 
             _buildWeek (fromDate, weekOffset) {

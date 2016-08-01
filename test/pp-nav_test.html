@@ -168,6 +168,13 @@
                 });
             });
 
+            context('.locale', () => {
+                it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('locale');
+                });
+            });
+
             context('.next()', () => {
                 it('is defined', () => {
                     const element = fixture('basic');

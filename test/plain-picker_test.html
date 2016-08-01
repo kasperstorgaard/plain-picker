@@ -54,9 +54,9 @@
                             .that.is.an.object;
                     });
 
-                    it('defaults to { startOfWeek: 1 }', () => {
+                    it('defaults to {}', () => {
                         const element = fixture('basic');
-                        expect(element.locale).to.deep.equal({ startOfWeek: 1 });
+                        expect(element.locale).to.deep.equal({});
                     });
                 });
             });

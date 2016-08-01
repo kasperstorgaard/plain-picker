@@ -1,7 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-meta/iron-meta.html">
 <link rel="import" href="src/pp-nav.html">
 <link rel="import" href="src/pp-month.html">
+<link rel="import" href="src/pp-default-locale.html">
 <!--
     `plain-picker`
 
@@ -16,13 +16,15 @@
                 padding: 1.4286em; /* 20 px on 14px font size */
             }
         </style>
-        <iron-meta key="locale" value="[[locale]]"></iron-meta>
+        <pp-default-locale id="default-locale" value="{{_defaultLocale}}"></pp-default-locale>
         <pp-nav year="{{_year}}"
                 month="{{_month}}"
-                date="[[date]]"></pp-nav>
+                date="[[date]]"
+                locale="[[_locale]]"></pp-nav>
         <pp-month active-date="{{date}}"
                   year="[[_year]]"
-                  month="[[_month]]"></pp-month>
+                  month="[[_month]]"
+                  locale="[[_locale]]"></pp-month>
     </template>
 
     <script>
@@ -36,10 +38,20 @@
                 },
                 locale: {
                     type: Object,
-                    value: () => ({ startOfWeek: 1 })
+                    value: () => ({})
+                },
+                _locale: {
+                    type: Object,
+                    computed: '_localeWithDefaults(locale.*, _defaultLocale)'
                 },
                 _year: Number,
-                _month: Number
+                _month: Number,
+                _defaultLocale: Object
+            },
+
+            _localeWithDefaults (localeMutations, defaultLocale) {
+                const locale = localeMutations.base;
+                return Object.assign({}, defaultLocale, locale);
             }
         });
     </script>

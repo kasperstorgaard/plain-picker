@@ -1,5 +1,4 @@
 <link rel="import" href="../../polymer/polymer.html">
-<link rel="import" href="../../iron-meta/iron-meta.html">
 
 <dom-module id="pp-nav">
     <template>
@@ -37,10 +36,9 @@
                 flex-grow: 1;
             }
         </style>
-        <iron-meta id="meta" key="locale"></iron-meta>
         <div class="left"
              on-tap="prev">&lt;</div>
-            <div class="header">[[year]] [[ _getMonthName(year, month) ]]</div>
+        <div class="header"><span>[[year]]</span>&nbsp;<span>[[_monthName]]</span></div>
         <div class="right"
              on-tap="next">&gt;</div>
     </template>
@@ -67,6 +65,14 @@
                     type: Number,
                     notify: true,
                     computed: '_getMonth(date, offset)'
+                },
+                locale: {
+                    type: Object,
+                    value: () => ({ months: { shorthand: [], longhand: [] } })
+                },
+                _monthName: {
+                    type: String,
+                    computed: '_getMonthName(year, month, locale.months)'
                 }
             },
 
@@ -78,11 +84,6 @@
             prev () {
                 this.offset--;
                 return this.offset;
-            },
-
-            get _monthNames () {
-                const locale = this.$.meta.value;
-                return locale ? locale.months.shorthand : [];
             },
 
             _resetOffset () {
@@ -102,11 +103,11 @@
                 return this._getOffsetDate(date, offset).getMonth();
             },
 
-            _getMonthName (year, month) {
+            _getMonthName (year, month, months) {
                 const date = new Date(year, month, 1);
                 const dateStrSplit = date.toString().split(' ');
                 const defaultMonthName = dateStrSplit[1];
-                return this._monthNames[month] || defaultMonthName;
+                return months.shorthand[month] || defaultMonthName;
             }
         });
     </script>
