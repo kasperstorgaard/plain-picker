@@ -39,6 +39,13 @@
 
                     expect(element.date.getDate()).to.equal(now.getDate());
                 });
+
+                it('resets offset when changed', () => {
+                    const element = fixture('basic');
+                    element.offset = 1;
+                    element.set('date', new Date(1984, 0, 1));
+                    expect(element.offset).to.be.zero;
+                });
             });
 
             context('.offset', () => {
