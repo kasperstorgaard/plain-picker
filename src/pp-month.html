@@ -28,6 +28,7 @@
             pp-day[outside] {
                 opacity: 0.5;
             }
+
         </style>
         <iron-meta id="meta"></iron-meta>
         <template is="dom-repeat" 
@@ -40,7 +41,7 @@
                     <pp-day date="[[date]]"
                             selected$="[[_isSameDate(date, activeDate)]]"
                             on-tap="_daySelected"
-                            outside$="[[_isOutsideMonth(date, activeDate)]]"
+                            outside$="[[_isOutsideMonth(date, month)]]"
                             class$="day">
                     </pp-day>
                 </template>
@@ -123,8 +124,8 @@
                     date.getFullYear() === activeDate.getFullYear();
             },
 
-            _isOutsideMonth (date, activeDate) {
-                return date.getMonth() !== activeDate.getMonth();
+            _isOutsideMonth (date, month) {
+                return date.getMonth() !== month;
             },
 
             _daySelected (event) {
