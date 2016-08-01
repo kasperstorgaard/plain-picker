@@ -25,7 +25,7 @@
                 justify-content: space-around;
             }
 
-            pp-day.outside {
+            pp-day[outside] {
                 opacity: 0.5;
             }
         </style>
@@ -39,8 +39,9 @@
                           as="date">
                     <pp-day date="[[date]]"
                             selected$="[[_isSameDate(date, activeDate)]]"
-                            on-click="_dayClicked"
-                            class$="day [[_getOutsideClass(date, activeDate)]]">
+                            on-tap="_daySelected"
+                            outside$="[[_isOutsideMonth(date, activeDate)]]"
+                            class$="day">
                     </pp-day>
                 </template>
             </div>
@@ -118,8 +119,14 @@
                     date.getFullYear() === activeDate.getFullYear();
             },
 
-            _getOutsideClass (date, activeDate) {
-                return date.getMonth() === activeDate.getMonth() ? '' : 'outside';
+            _isOutsideMonth (date, activeDate) {
+                return date.getMonth() !== activeDate.getMonth();
+            },
+
+            _daySelected (event) {
+                const normalizedEvent = Polymer.dom(event);
+                const { date } = normalizedEvent.localTarget;
+                this.set('activeDate', date);
             }
         });
     </script>
