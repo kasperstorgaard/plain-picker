@@ -23,6 +23,40 @@
                     const element = fixture('basic');
                     expect(element.is).to.equal('pp-day');
                 });
+
+                context('.date', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('date')
+                            .that.is.an.object;
+                    });
+
+                    it('defaults to now', () => {
+                        const element = fixture('basic');
+                        const now = new Date();
+                        expect(element.date.getDate()).to.equal(now.getDate());
+                    });
+                });
+
+                context('.number', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('number')
+                            .that.is.a.number;
+                    });
+
+                    it('is readonly', () => {
+                        const element = fixture('basic');
+                        const fn = () => { element.set('number', 0); };
+                        expect(fn).to.throw(/only a getter/);
+                    });
+
+                    it('gets the date number of .date', () => {
+                        const element = fixture('basic');
+                        element.date = new Date(2016, 6, 26);
+                        expect(element.number).to.equal(26);
+                    });
+                });
             });
         </script>
     </body>
