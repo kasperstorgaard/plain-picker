@@ -83,10 +83,38 @@
                     expect(fn).to.throw(/only a getter/);
                 });
 
-                it('is year of .date', () => {
+                it('is year of .date with offset 0', () => {
                     const element = fixture('basic');
                     const currentYear = element.date.getFullYear();
                     expect(element.year).to.equal(currentYear);
+                });
+
+                it('is year of .date when offset 1 and jun.', () => {
+                    const element = fixture('basic');
+                    element.date = new Date(1984, 6, 1);
+                    element.offset = 1;
+                    expect(element.year).to.equal(1984);
+                });
+
+                it('is year of .date when offset -1 and jun.', () => {
+                    const element = fixture('basic');
+                    element.date = new Date(1984, 6, 1);
+                    element.offset = -1;
+                    expect(element.year).to.equal(1984);
+                });
+
+                it('is next year of .date when offset 1 and dec.', () => {
+                    const element = fixture('basic');
+                    element.date = new Date(1984, 11, 1);
+                    element.offset = 1;
+                    expect(element.year).to.equal(1985);
+                });
+
+                it('is prev year of .date when offset -1 and jan.', () => {
+                    const element = fixture('basic');
+                    element.date = new Date(1984, 0, 1);
+                    element.offset = -1;
+                    expect(element.year).to.equal(1983);
                 });
             });
 
@@ -112,10 +140,24 @@
                     expect(fn).to.throw(/only a getter/);
                 });
 
-                it('is month of .date', () => {
+                it('is month of .date when offset 0', () => {
                     const element = fixture('basic');
                     const currentMonth = element.date.getMonth();
                     expect(element.month).to.equal(currentMonth);
+                });
+
+                it('is next month when offset 1', () => {
+                    const element = fixture('basic');
+                    element.date = new Date(1984, 6, 1);
+                    element.offset = 1;
+                    expect(element.month).to.equal(7);
+                });
+
+                it('is prev month when offset -1', () => {
+                    const element = fixture('basic');
+                    element.date = new Date(1984, 6, 1);
+                    element.offset = -1;
+                    expect(element.month).to.equal(5);
                 });
             });
 
@@ -136,27 +178,6 @@
                     const element = fixture('basic');
                     const val = element.next();
                     expect(val).to.equal(1);
-                });
-
-                it('changes the month', () => {
-                    const element = fixture('basic');
-                    element.date = new Date(1984, 0, 1);
-                    element.next();
-                    expect(element.month).to.equal(1);
-                });
-
-                it('changes the year when dec.', () => {
-                    const element = fixture('basic');
-                    element.date = new Date(1984, 11, 1);
-                    element.next();
-                    expect(element.year).to.equal(1985);
-                });
-
-                it('doesn\'t change the year when jun.', () => {
-                    const element = fixture('basic');
-                    element.date = new Date(1984, 6, 1);
-                    element.next();
-                    expect(element.year).to.equal(1984);
                 });
 
                 it('doesn\'t change the date', () => {
@@ -185,28 +206,6 @@
                     const val = element.prev();
                     expect(val).to.equal(-1);
                 });
-
-                it('changes the month', () => {
-                    const element = fixture('basic');
-                    element.date = new Date(1984, 0, 1);
-                    element.prev();
-                    expect(element.month).to.equal(11);
-                });
-
-                it('changes the year when jan.', () => {
-                    const element = fixture('basic');
-                    element.date = new Date(1984, 0, 1);
-                    element.prev();
-                    expect(element.year).to.equal(1983);
-                });
-
-                it('doesn\'t change the year when jun.', () => {
-                    const element = fixture('basic');
-                    element.date = new Date(1984, 6, 1);
-                    element.prev();
-                    expect(element.year).to.equal(1984);
-                });
-
 
                 it('doesn\'t change the date', () => {
                     const element = fixture('basic');
