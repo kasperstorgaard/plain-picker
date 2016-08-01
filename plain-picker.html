@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../iron-meta/iron-meta.html">
+<link rel="import" href="src/pp-nav.html">
 <link rel="import" href="src/pp-month.html">
 <!--
     `plain-picker`
@@ -16,17 +17,29 @@
             }
         </style>
         <iron-meta key="locale" value="[[locale]]"></iron-meta>
-        <pp-month></pp-month>
+        <pp-nav year="{{_year}}"
+                month="{{_month}}"
+                date="[[date]]"></pp-nav>
+        <pp-month active-date="{{date}}"
+                  year="[[_year]]"
+                  month="[[_month]]"></pp-month>
     </template>
 
     <script>
         Polymer({
             is: 'plain-picker',
             properties: {
+                date: {
+                    type: Object,
+                    notify: true,
+                    value: () => new Date()
+                },
                 locale: {
                     type: Object,
                     value: () => ({ startOfWeek: 1 })
-                }
+                },
+                _year: Number,
+                _month: Number
             }
         });
     </script>
