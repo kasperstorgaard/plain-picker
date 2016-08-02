@@ -25,32 +25,12 @@
                 cursor: not-allowed;
             }
 
-            :host[disabled], :host[outside] {
-                opacity: 0.5;
-            }
-
-            :host[is-min] .inner:before, :host[is-max] .inner:before {
-                content: '';
-                display: block;
-                position: absolute;
-                height: 80%;
-                top: calc(10% - 1px);
-                width: 33%;
+            :host[outside] {
                 opacity: 0.6;
-                border-width: 1px 0;
-                border-style: solid;
-                border-color: var(--plain-picker-base-color, black);
-                border-radius: 50%;
             }
 
-            :host[is-min] .inner:before {
-                left: -4px;
-                border-left-width: 1px;
-            }
-
-            :host[is-max] .inner:before {
-                right: -4px;
-                border-right-width: 1px;
+            :host[disabled] {
+                opacity: 0.2;
             }
 
             .inner {
