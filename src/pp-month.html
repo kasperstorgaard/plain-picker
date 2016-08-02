@@ -82,7 +82,7 @@
 
             _buildWeeks (year, month, startOfWeek) {
                 const fromDate = this._getStartDate(year, month, startOfWeek);
-                const weekOffsets = [0, 1, 2, 3, 4];
+                const weekOffsets = [0, 1, 2, 3, 4, 5];
                 return weekOffsets
                     .map(weekOffset => this._buildWeek(fromDate, weekOffset));
             },
