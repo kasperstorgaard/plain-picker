@@ -2,6 +2,7 @@
 <link rel="import" href="src/pp-nav.html">
 <link rel="import" href="src/pp-month.html">
 <link rel="import" href="src/pp-default-locale.html">
+<link rel="import" href="src/pp-week-header.html">
 <!--
     `plain-picker`
 
@@ -13,7 +14,11 @@
         <style>
             :host {
                 display: block;
-                padding: 1.4286em; /* 20 px on 14px font size */
+                padding: 1.428em; /* 20 px on 14px font size */
+            }
+
+            pp-nav {
+                margin-bottom: 0.714em;
             }
         </style>
         <pp-default-locale id="default-locale" value="{{_defaultLocale}}"></pp-default-locale>
@@ -21,6 +26,8 @@
                 month="{{_month}}"
                 date="[[date]]"
                 locale="[[_locale]]"></pp-nav>
+        <pp-week-header locale="[[_locale]]"
+                        day-format="single"></pp-week-header>
         <pp-month active-date="{{date}}"
                   year="[[_year]]"
                   month="[[_month]]"

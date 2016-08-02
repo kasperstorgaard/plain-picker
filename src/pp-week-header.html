@@ -1,0 +1,67 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<dom-module id="pp-week-header">
+    <template>
+        <style>
+            :host {
+                display: flex;
+                flex-direction: row;
+                width: 100%;
+            }
+
+            .day-header {
+                color: var(--plain-picker-base-color, black);
+                width: 100%;
+                line-height: 2.8em;
+                text-align: center;
+                text-transform: capitalize;
+            }
+        </style>
+        <template is="dom-repeat"
+                  items="[[_days]]"
+                  as="day">
+            <div class="day-header">[[day]]</div>
+        </template>
+    </template>
+    <script>
+        Polymer({
+            is: 'pp-week-header',
+            properties: {
+                dayFormat: {
+                    type: String,
+                    value: 'short'
+                },
+                locale: {
+                    type: Object,
+                    value: () => ({
+                        startOfWeek: 1,
+                        weekDays: {
+                            shorthand: ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'],
+                            longhand: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday',
+                                'friday', 'saturday']
+                        }
+                    })
+                },
+                _days: {
+                    type: Array,
+                    computed: '_buildDays(dayFormat, locale.weekDays, locale.startOfWeek)'
+                }
+            },
+            _getDaysInFormat (dayFormat, weekDays) {
+                if (dayFormat === 'single') {
+                    return weekDays.shorthand.map(day => day[0]);
+                }
+                if (dayFormat === 'short' || dayFormat === 'dd') {
+                    return weekDays.shorthand.slice();
+                }
+                return weekDays.longhand || weekDays.shorthand;
+            },
+            _buildDays (dayFormat, weekDays, startOfWeek) {
+                const days = this._getDaysInFormat(dayFormat, weekDays);
+                const preStartDays = days.slice(0, startOfWeek);
+                const postStartDays = days.slice(startOfWeek);
+                return postStartDays.concat(preStartDays);
+            }
+        });
+    </script>
+</dom-module>
