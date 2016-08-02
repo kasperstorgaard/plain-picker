@@ -22,10 +22,6 @@
                 width: 100%;
                 height: 100%;
             }
-
-            pp-day[outside] {
-                opacity: 0.5;
-            }
         </style>
         <template is="dom-repeat" 
                   items="[[weeks]]"
@@ -36,8 +32,11 @@
                           as="date">
                     <pp-day date="[[date]]"
                             selected$="[[_isSameDate(date, activeDate)]]"
+                            disabled$="[[_isOutsideMinMax(date, minDate, maxDate)]]"
                             on-tap="_daySelected"
                             outside$="[[_isOutsideMonth(date, month)]]"
+                            is-min$="[[_isSameDate(date, minDate)]]"
+                            is-max$="[[_isSameDate(date, maxDate)]]"
                             class$="day">
                     </pp-day>
                 </template>
@@ -121,6 +120,9 @@
             },
 
             _isSameDate (date, activeDate) {
+                if (!date || !activeDate) {
+                    return false;
+                }
                 return date.getDate() === activeDate.getDate() &&
                     date.getMonth() === activeDate.getMonth() &&
                     date.getFullYear() === activeDate.getFullYear();
@@ -130,10 +132,31 @@
                 return date.getMonth() !== month;
             },
 
+            _isOutsideMinMax (date, minDate, maxDate) {
+                const val = date.valueOf();
+                const dateNumber = date.getDate();
+                const month = date.getMonth();
+                const year = date.getFullYear();
+
+                if (minDate && val < minDate.valueOf() && (dateNumber < minDate.getDate() ||
+                        month < minDate.getMonth() || year < minDate.getFullYear())) {
+                    return true;
+                }
+                if (minDate && val > minDate.valueOf() && (dateNumber > maxDate.getDate() ||
+                        month > maxDate.getMonth() || year > maxDate.getFullYear())) {
+                    return true;
+                }
+                return false;
+            },
+
             _daySelected (event) {
                 const normalizedEvent = Polymer.dom(event);
-                const { date } = normalizedEvent.localTarget;
-                this.set('activeDate', date);
+                const target = normalizedEvent.localTarget;
+
+                if (target.getAttribute('disabled')) {
+                    return;
+                }
+                this.set('activeDate', target.date);
             }
         });
     </script>

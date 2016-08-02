@@ -1,8 +1,9 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="src/pp-nav.html">
-<link rel="import" href="src/pp-month.html">
-<link rel="import" href="src/pp-default-locale.html">
-<link rel="import" href="src/pp-week-header.html">
+<link rel="import" href="./src/pp-nav.html">
+<link rel="import" href="./src/pp-month.html">
+<link rel="import" href="./src/pp-default-locale.html">
+<link rel="import" href="./src/pp-week-header.html">
+<link rel="import" href="./src/pp-date-transformer.html">
 <!--
     `plain-picker`
 
@@ -21,17 +22,30 @@
                 margin-bottom: 0.714em;
             }
         </style>
+        <!-- begin:data --> 
+        <pp-date-transformer date="{{_date}}"
+                             json="{{date}}"></pp-date-transformer>
+        <pp-date-transformer date="{{_minDate}}"
+                             json="{{minDate}}"></pp-date-transformer>
+        <pp-date-transformer date="{{_maxDate}}" 
+                             json="{{maxDate}}"></pp-date-transformer>
         <pp-default-locale id="default-locale" value="{{_defaultLocale}}"></pp-default-locale>
+        <!-- end: data -->
+
+        <!-- begin: ui -->
         <pp-nav year="{{_year}}"
                 month="{{_month}}"
-                date="[[date]]"
+                date="[[_date]]"
                 locale="[[_locale]]"></pp-nav>
         <pp-week-header locale="[[_locale]]"
                         day-format="single"></pp-week-header>
-        <pp-month active-date="{{date}}"
+        <pp-month active-date="{{_date}}"
                   year="[[_year]]"
                   month="[[_month]]"
-                  locale="[[_locale]]"></pp-month>
+                  locale="[[_locale]]"
+                  min-date="[[_minDate]]"
+                  max-date="[[_maxDate]]"></pp-month>
+        <!-- end: ui -->
     </template>
 
     <script>
@@ -39,9 +53,9 @@
             is: 'plain-picker',
             properties: {
                 date: {
-                    type: Object,
+                    type: String,
                     notify: true,
-                    value: () => new Date()
+                    value: () => (new Date()).toJSON()
                 },
                 locale: {
                     type: Object,
@@ -61,7 +75,10 @@
                 },
                 _year: Number,
                 _month: Number,
-                _defaultLocale: Object
+                _defaultLocale: Object,
+                _date: Object,
+                _minDate: Object,
+                _maxDate: Object
             },
 
             _localeWithDefaults (localeMutations, defaultLocale) {

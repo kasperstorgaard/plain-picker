@@ -21,7 +21,39 @@
                 cursor: pointer;
             }
 
+            :host[disabled]:hover {
+                cursor: not-allowed;
+            }
+
+            :host[disabled], :host[outside] {
+                opacity: 0.5;
+            }
+
+            :host[is-min] .inner:before, :host[is-max] .inner:before {
+                content: '';
+                display: block;
+                position: absolute;
+                height: 66.666%;
+                top: 16.667%;
+                width: 100%;
+                opacity: 0.6;
+                border-width: 0px;
+                border-style: solid;
+                border-color: var(--plain-picker-base-color, black);
+            }
+
+            :host[is-min] .inner:before {
+                left: -3px;
+                border-left-width: 1px;
+            }
+
+            :host[is-max] .inner:before {
+                right: -3px;
+                border-right-width: 1px;
+            }
+
             .inner {
+                position: relative;
                 width: 2em;
                 height: 2em;
                 line-height: 2em;
@@ -50,7 +82,13 @@
                 number: {
                     type: Number,
                     computed: '_getNumber(date)'
-                }
+                },
+
+                // styling only
+                disabled: Boolean,
+                outside: Boolean,
+                isMin: Boolean,
+                isMax: Boolean
             },
             _getNumber (date) {
                 return date.getDate();
