@@ -184,6 +184,20 @@
                         expect(element).to.have.property('locale');
                     });
                 });
+
+                context('.minDate', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('minDate');
+                    });
+                });
+
+                context('.maxDate', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('maxDate');
+                    });
+                });
             });
         </script>
     </body>
