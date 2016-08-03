@@ -21,7 +21,20 @@
                 cursor: pointer;
             }
 
+            :host[disabled]:hover {
+                cursor: not-allowed;
+            }
+
+            :host[outside] {
+                opacity: 0.6;
+            }
+
+            :host[disabled] {
+                opacity: 0.2;
+            }
+
             .inner {
+                position: relative;
                 width: 2em;
                 height: 2em;
                 line-height: 2em;
@@ -50,7 +63,13 @@
                 number: {
                     type: Number,
                     computed: '_getNumber(date)'
-                }
+                },
+
+                // styling only
+                disabled: Boolean,
+                outside: Boolean,
+                isMin: Boolean,
+                isMax: Boolean
             },
             _getNumber (date) {
                 return date.getDate();

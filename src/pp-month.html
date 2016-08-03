@@ -1,5 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="./pp-day.html">
+<link rel="import" href="./pp-date-util.html">
 
 <!--
     `calendar-month`
@@ -22,11 +23,12 @@
                 width: 100%;
                 height: 100%;
             }
-
-            pp-day[outside] {
-                opacity: 0.5;
-            }
         </style>
+        <!-- begin: data -->
+        <pp-date-util id="date-util"></pp-date-util>
+        <!-- end: data -->
+
+        <!-- begin: ui -->
         <template is="dom-repeat" 
                   items="[[weeks]]"
                   as="week">
@@ -36,13 +38,17 @@
                           as="date">
                     <pp-day date="[[date]]"
                             selected$="[[_isSameDate(date, activeDate)]]"
+                            disabled$="[[_isOutsideMinMax(date, minDate, maxDate)]]"
                             on-tap="_daySelected"
                             outside$="[[_isOutsideMonth(date, month)]]"
+                            is-min$="[[_isSameDate(date, minDate)]]"
+                            is-max$="[[_isSameDate(date, maxDate)]]"
                             class$="day">
                     </pp-day>
                 </template>
             </div>
         </template>
+        <!-- end: ui -->
     </template>
 
     <script>
@@ -70,12 +76,20 @@
                 locale: {
                     type: Object,
                     value: () => ({ startOfWeek: 1 })
+                },
+                minDate: {
+                    type: Object,
+                    value: null
+                },
+                maxDate: {
+                    type: Object,
+                    value: null
                 }
             },
 
             _buildWeeks (year, month, startOfWeek) {
                 const fromDate = this._getStartDate(year, month, startOfWeek);
-                const weekOffsets = [0, 1, 2, 3, 4];
+                const weekOffsets = [0, 1, 2, 3, 4, 5];
                 return weekOffsets
                     .map(weekOffset => this._buildWeek(fromDate, weekOffset));
             },
@@ -113,19 +127,28 @@
             },
 
             _isSameDate (date, activeDate) {
-                return date.getDate() === activeDate.getDate() &&
-                    date.getMonth() === activeDate.getMonth() &&
-                    date.getFullYear() === activeDate.getFullYear();
+                const dateUtil = this.$['date-util'];
+                return dateUtil.isSame(date, activeDate);
             },
 
             _isOutsideMonth (date, month) {
                 return date.getMonth() !== month;
             },
 
+            _isOutsideMinMax (date, minDate, maxDate) {
+                const dateUtil = this.$['date-util'];
+                return dateUtil.isBefore(date, minDate) ||
+                    dateUtil.isAfter(date, maxDate);
+            },
+
             _daySelected (event) {
                 const normalizedEvent = Polymer.dom(event);
-                const { date } = normalizedEvent.localTarget;
-                this.set('activeDate', date);
+                const target = normalizedEvent.localTarget;
+
+                if (target.disabled) {
+                    return;
+                }
+                this.set('activeDate', target.date);
             }
         });
     </script>

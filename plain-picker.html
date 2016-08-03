@@ -1,8 +1,9 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="src/pp-nav.html">
-<link rel="import" href="src/pp-month.html">
-<link rel="import" href="src/pp-default-locale.html">
-<link rel="import" href="src/pp-week-header.html">
+<link rel="import" href="./src/pp-nav.html">
+<link rel="import" href="./src/pp-month.html">
+<link rel="import" href="./src/pp-default-locale.html">
+<link rel="import" href="./src/pp-week-header.html">
+<link rel="import" href="./src/pp-date-transformer.html">
 <!--
     `plain-picker`
 
@@ -17,21 +18,39 @@
                 padding: 1.428em; /* 20 px on 14px font size */
             }
 
-            pp-nav {
-                margin-bottom: 0.714em;
+            pp-week-header {
+                margin: 0.3em 0;
+                border-color: var(--plain-picker-base-color, black);
+                border-width: 1px 0;
+                border-style: solid;
             }
         </style>
+        <!-- begin:data --> 
+        <pp-date-transformer date="{{_date}}"
+                             json="{{date}}"></pp-date-transformer>
+        <pp-date-transformer date="{{_minDate}}"
+                             json="{{minDate}}"></pp-date-transformer>
+        <pp-date-transformer date="{{_maxDate}}" 
+                             json="{{maxDate}}"></pp-date-transformer>
         <pp-default-locale id="default-locale" value="{{_defaultLocale}}"></pp-default-locale>
+        <!-- end: data -->
+
+        <!-- begin: ui -->
         <pp-nav year="{{_year}}"
                 month="{{_month}}"
-                date="[[date]]"
-                locale="[[_locale]]"></pp-nav>
+                date="[[_date]]"
+                locale="[[_locale]]"
+                min-date="[[_minDate]]"
+                max-date="[[_maxDate]]"></pp-nav>
         <pp-week-header locale="[[_locale]]"
                         day-format="single"></pp-week-header>
-        <pp-month active-date="{{date}}"
+        <pp-month active-date="{{_date}}"
                   year="[[_year]]"
                   month="[[_month]]"
-                  locale="[[_locale]]"></pp-month>
+                  locale="[[_locale]]"
+                  min-date="[[_minDate]]"
+                  max-date="[[_maxDate]]"></pp-month>
+        <!-- end: ui -->
     </template>
 
     <script>
@@ -39,13 +58,21 @@
             is: 'plain-picker',
             properties: {
                 date: {
-                    type: Object,
+                    type: String,
                     notify: true,
-                    value: () => new Date()
+                    value: () => (new Date()).toJSON()
                 },
                 locale: {
                     type: Object,
                     value: () => ({})
+                },
+                minDate: {
+                    type: Object,
+                    value: null
+                },
+                maxDate: {
+                    type: Object,
+                    value: null
                 },
                 _locale: {
                     type: Object,
@@ -53,7 +80,10 @@
                 },
                 _year: Number,
                 _month: Number,
-                _defaultLocale: Object
+                _defaultLocale: Object,
+                _date: Object,
+                _minDate: Object,
+                _maxDate: Object
             },
 
             _localeWithDefaults (localeMutations, defaultLocale) {

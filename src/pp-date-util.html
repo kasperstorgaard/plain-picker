@@ -1,0 +1,33 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<dom-module id="pp-date-util">
+    <script>
+        Polymer({
+            is: 'pp-date-util',
+            properties: {},
+            isBefore (src, target) {
+                return src && target && (this._dateVal(src) < this._dateVal(target));
+            },
+            isSame (src, target) {
+                return src && target && (this._dateVal(src) === this._dateVal(target));
+            },
+            isAfter (src, target) {
+                return src && target && (this._dateVal(src) > this._dateVal(target));
+            },
+            _ensurePrefixed (val, len) {
+                let str = val.toString();
+                while (str.length < len) {
+                    str = `0${str}`;
+                }
+                return str;
+            },
+            _dateVal (date) {
+                const year = date.getFullYear();
+                const month = this._ensurePrefixed(date.getMonth(), 2);
+                const dateOfMonth = this._ensurePrefixed(date.getDate(), 2);
+
+                return parseInt(`${year}${month}${dateOfMonth}`, 10);
+            }
+        });
+    </script>
+</dom-module>

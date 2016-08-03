@@ -70,7 +70,7 @@
                                 border-radius: 0; 
                             }
                             --plain-picker-day-selected: {
-                                border-color: cyan lime yellow magenta;
+                                background: linear-gradient(to top right, transparent 50%, black 50%, black 100%)
                             };
                             --plain-picker-base-color: white;
                         }
@@ -84,6 +84,15 @@
             <demo-snippet>
                 <template>
                     <plain-picker locale='{"startOfWeek":0}'></plain-picker>
+                </template>
+            </demo-snippet>
+
+            <h3>min/max date restrictions</h3>
+            <demo-snippet>
+                <template>
+                    <plain-picker date="1984-05-16T10:00:00.000Z"
+                        min-date="1984-05-02T00:00:00.000Z"
+                        max-date="1984-05-26T00:00:00.000Z"></plain-picker>
                 </template>
             </demo-snippet>
         </div>
