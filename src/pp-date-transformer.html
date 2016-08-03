@@ -14,26 +14,25 @@
                     type: String,
                     notify: true,
                     value: ''
-                },
-                utc: {
-                    type: Boolean,
-                    value: false
                 }
             },
             observers: [
-                '_setDate(json, utc)',
+                '_setDate(json)',
                 '_setJSON(date.*)'
             ],
             _setJSON (dateMutations) {
                 const { base } = dateMutations;
                 this.json = base && base.toJSON ? base.toJSON() : '';
             },
-            _setDate (json, utc) {
+            _setDate (json) {
                 if (!json) {
                     this.date = null;
                     return;
                 }
-                this.date = utc ? new Date(Date.UTC(json)) : new Date(json);
+                if (this.date && this.date.toJSON() === json) {
+                    return;
+                }
+                this.date = new Date(json);
             }
         });
     </script>
