@@ -1,4 +1,5 @@
 <link rel="import" href="../../polymer/polymer.html">
+<link rel="import" href="pp-date-util.html">
 
 <dom-module id="pp-nav">
     <template>
@@ -16,10 +17,8 @@
                 flex-grow: 0;
                 width: 2em;
                 padding: 0.3em;
-            }
-
-            .left:hover, .right:hover {
-                cursor: pointer;
+                background: none;
+                border: none;
             }
 
             .left {
@@ -30,15 +29,35 @@
                 margin-right: 0.6em;
             }
 
+            .left:active, .right:active, .left:focus, .right:focus {
+                outline: none;
+            }
+
+            .left:hover, .right:hover {
+                cursor: pointer;
+            }
+
+            .left[disabled], .right[disabled] {
+                opacity: 0.2;
+            }
+
             .header {
                 flex-grow: 1;
             }
         </style>
-        <div class="left"
-             on-tap="prev">&lt;</div>
+        <!-- begin: data -->
+        <pp-date-util id="date-util"></pp-date-util>
+        <!-- end: data -->
+
+        <!-- begin: ui -->
+        <button class="left"
+             disabled$="[[_prevDisabled]]"
+             on-tap="prev">&lt;</button>
         <div class="header"><span>[[year]]</span>&nbsp;<span>[[_monthName]]</span></div>
-        <div class="right"
-             on-tap="next">&gt;</div>
+        <button class="right"
+             disabled$="[[_nextDisabled]]"
+             on-tap="next">&gt;</button>
+        <!-- end: ui -->
     </template>
     <script>
         Polymer({
@@ -68,9 +87,25 @@
                     type: Object,
                     value: () => ({ months: { shorthand: [], longhand: [] } })
                 },
+                minDate: {
+                    type: Object,
+                    value: null
+                },
+                maxDate: {
+                    type: Object,
+                    value: null
+                },
                 _monthName: {
                     type: String,
                     computed: '_getMonthName(year, month, locale.months)'
+                },
+                _prevDisabled: {
+                    type: Boolean,
+                    computed: '_isPrevDisabled(month, year, minDate)'
+                },
+                _nextDisabled: {
+                    type: Boolean,
+                    computed: '_isNextDisabled(month, year, maxDate)'
                 }
             },
 
@@ -106,6 +141,40 @@
                 const dateStrSplit = date.toString().split(' ');
                 const defaultMonthName = dateStrSplit[1];
                 return months.shorthand[month] || defaultMonthName;
+            },
+
+            _isPrevDisabled (month, year, minDate) {
+                if (!minDate) {
+                    return false;
+                }
+                const minYear = minDate.getFullYear();
+                if (year < minYear) {
+                    return true;
+                }
+                if (year > minYear) {
+                    return false;
+                }
+                if (month <= minDate.getMonth()) {
+                    return true;
+                }
+                return false;
+            },
+
+            _isNextDisabled (month, year, maxDate) {
+                if (!maxDate) {
+                    return false;
+                }
+                const minYear = maxDate.getFullYear();
+                if (year > minYear) {
+                    return true;
+                }
+                if (year < minYear) {
+                    return false;
+                }
+                if (month >= maxDate.getMonth()) {
+                    return true;
+                }
+                return false;
             }
         });
     </script>
