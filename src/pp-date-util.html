@@ -1,0 +1,27 @@
+<link rel="import" href="../../polymer/polymer.html">
+
+<dom-module id="pp-date-util">
+    <script>
+        Polymer({
+            is: 'pp-date-util',
+            properties: {},
+            isBefore (date, target) {
+                return date.getFullYear() <= target.getFullYear() &&
+                    date.getMonth() <= target.getMonth() &&
+                    date.getDate() <= target.getDate() &&
+                    !this.isSame(date, target);
+            },
+            isSame (date, target) {
+                return date.getFullYear() === target.getFullYear() &&
+                    date.getMonth() === target.getMonth() &&
+                    date.getDate() === target.getDate();
+            },
+            isAfter (date, target) {
+                return date.getFullYear() >= target.getFullYear() &&
+                    date.getMonth() >= target.getMonth() &&
+                    date.getDate() >= target.getDate() &&
+                    !this.isSame(date, target);
+            }
+        });
+    </script>
+</dom-module>
