@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>pp-date-transformer test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../src/pp-date-transformer.html">
+</head>
+
+<body>
+    <test-fixture id="basic">
+        <template>
+            <pp-date-transformer></pp-date-transformer>
+        </template>
+    </test-fixture>
+
+    <script>
+        describe('<pp-date-transformer>', () => {
+            it('works', () => {
+                const element = fixture('basic');
+                expect(element.is).to.equal('pp-date-transformer');
+            });
+
+            context('.date', () => {
+                it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('date')
+                        .that.is.an.object;
+                });
+
+                it('notifies', () => {
+                    const element = fixture('basic');
+                    const spy = sinon.spy();
+                    element.addEventListener('date-changed', spy);
+                    element.set('date', new Date());
+                    expect(spy).to.have.been.calledOnce;
+                });
+
+                it('changes json when set', () => {
+                    const element = fixture('basic');
+                    const spy = sinon.spy();
+                    element.addEventListener('json-changed', spy);
+                    element.set('date', new Date());
+                    expect(spy).to.have.been.calledOnce;
+                });
+
+                it('sets corresponding json', () => {
+                    const element = fixture('basic');
+                    const date = new Date(Date.UTC(1984, 0, 1, 0, 0, 0));
+                    const json = '1984-01-01T00:00:00.000Z';
+                    element.set('date', date);
+                    expect(element.json).to.equal(json);
+                });
+            });
+
+            context('.json', () => {
+                it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('json')
+                        .that.is.a.string;
+                });
+
+                it('notifies', () => {
+                    const element = fixture('basic');
+                    const spy = sinon.spy();
+                    element.addEventListener('json-changed', spy);
+                    element.set('json', (new Date()).toJSON());
+                    expect(spy).to.have.been.calledOnce;
+                });
+
+                it('changes date when set', () => {
+                    const element = fixture('basic');
+                    const spy = sinon.spy();
+                    element.addEventListener('date-changed', spy);
+                    element.set('json', (new Date()).toJSON());
+                    expect(spy).to.have.been.calledOnce;
+                });
+
+                it('sets corresponding date', () => {
+                    const element = fixture('basic');
+                    const json = '1984-01-01T00:00:00.000Z';
+                    element.set('json', json);
+                    expect(element.date.toJSON()).to.equal(json);
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
