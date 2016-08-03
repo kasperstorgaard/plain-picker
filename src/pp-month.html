@@ -1,5 +1,6 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="./pp-day.html">
+<link rel="import" href="./pp-date-util.html">
 
 <!--
     `calendar-month`
@@ -23,6 +24,11 @@
                 height: 100%;
             }
         </style>
+        <!-- begin: data -->
+        <pp-date-util id="date-util"></pp-date-util>
+        <!-- end: data -->
+
+        <!-- begin: ui -->
         <template is="dom-repeat" 
                   items="[[weeks]]"
                   as="week">
@@ -42,6 +48,7 @@
                 </template>
             </div>
         </template>
+        <!-- end: ui -->
     </template>
 
     <script>
@@ -120,12 +127,8 @@
             },
 
             _isSameDate (date, activeDate) {
-                if (!date || !activeDate) {
-                    return false;
-                }
-                return date.getDate() === activeDate.getDate() &&
-                    date.getMonth() === activeDate.getMonth() &&
-                    date.getFullYear() === activeDate.getFullYear();
+                const dateUtil = this.$['date-util'];
+                return dateUtil.isSame(date, activeDate);
             },
 
             _isOutsideMonth (date, month) {
@@ -133,20 +136,9 @@
             },
 
             _isOutsideMinMax (date, minDate, maxDate) {
-                const val = date.valueOf();
-                const dateNumber = date.getDate();
-                const month = date.getMonth();
-                const year = date.getFullYear();
-
-                if (minDate && val < minDate.valueOf() && (dateNumber < minDate.getDate() ||
-                        month < minDate.getMonth() || year < minDate.getFullYear())) {
-                    return true;
-                }
-                if (minDate && val > minDate.valueOf() && (dateNumber > maxDate.getDate() ||
-                        month > maxDate.getMonth() || year > maxDate.getFullYear())) {
-                    return true;
-                }
-                return false;
+                const dateUtil = this.$['date-util'];
+                return dateUtil.isBefore(date, minDate) ||
+                    dateUtil.isAfter(date, maxDate);
             },
 
             _daySelected (event) {
