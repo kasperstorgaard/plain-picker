@@ -87,6 +87,50 @@
                     const target = new Date(1984, 5, 6);
                     expect(element.isBefore(src, target)).to.be.true;
                 });
+
+                describe('random dates', () => {
+                    it('1984-06-19 > 1984-06-18', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1984, 5, 19);
+                        const target = new Date(1984, 5, 18);
+                        expect(element.isBefore(src, target)).to.be.false;
+                    });
+
+                    it('1984-04-06 < 1988-07-11', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1984, 3, 6);
+                        const target = new Date(1988, 6, 11);
+                        expect(element.isBefore(src, target)).to.be.true;
+                    });
+
+                    it('1968-08-30 > 1945-01-23', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1968, 7, 30);
+                        const target = new Date(1945, 0, 23);
+                        expect(element.isBefore(src, target)).to.be.false;
+                    });
+
+                    it('2011-05-06 < 2068-04-03', () => {
+                        const element = fixture('basic');
+                        const src = new Date(2011, 4, 6);
+                        const target = new Date(2068, 3, 3);
+                        expect(element.isBefore(src, target)).to.be.true;
+                    });
+
+                    it('1959-11-30 < 1960-01-01', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1959, 10, 30);
+                        const target = new Date(1960, 0, 1);
+                        expect(element.isBefore(src, target)).to.be.true;
+                    });
+
+                    it('2011-09-15 > 1970-01-06', () => {
+                        const element = fixture('basic');
+                        const src = new Date(2011, 8, 15);
+                        const target = new Date(1970, 0, 6);
+                        expect(element.isBefore(src, target)).to.be.false;
+                    });
+                });
             });
 
             context('.isSame()', () => {
@@ -151,6 +195,50 @@
                     const target = new Date(1984, 5, 6);
                     expect(element.isSame(src, target)).to.be.false;
                 });
+
+                describe('random dates', () => {
+                    it('1984-06-19 !== 1984-06-18', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1984, 5, 19);
+                        const target = new Date(1984, 5, 18);
+                        expect(element.isSame(src, target)).to.be.false;
+                    });
+
+                    it('1968-08-30 === 1968-08-30', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1968, 7, 30);
+                        const target = new Date(1968, 7, 30);
+                        expect(element.isSame(src, target)).to.be.true;
+                    });
+
+                    it('2011-05-06 !== 2068-04-03', () => {
+                        const element = fixture('basic');
+                        const src = new Date(2011, 4, 6);
+                        const target = new Date(2068, 3, 3);
+                        expect(element.isSame(src, target)).to.be.false;
+                    });
+
+                    it('1959-11-30 === 1959-11-30', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1959, 10, 30);
+                        const target = new Date(1959, 10, 30);
+                        expect(element.isSame(src, target)).to.be.true;
+                    });
+
+                    it('2011-09-15 !== 1970-01-06', () => {
+                        const element = fixture('basic');
+                        const src = new Date(2011, 8, 15);
+                        const target = new Date(1970, 0, 6);
+                        expect(element.isSame(src, target)).to.be.false;
+                    });
+
+                    it('1984-04-06 === 1984-04-06', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1984, 3, 6);
+                        const target = new Date(1984, 3, 6);
+                        expect(element.isSame(src, target)).to.be.true;
+                    });
+                });
             });
 
             context('.isAfter()', () => {
@@ -214,6 +302,50 @@
                     const src = new Date(1984, 5, 5);
                     const target = new Date(1984, 5, 6);
                     expect(element.isAfter(src, target)).to.be.false;
+                });
+
+                describe('random dates', () => {
+                    it('1984-06-19 > 1984-06-18', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1984, 5, 19);
+                        const target = new Date(1984, 5, 18);
+                        expect(element.isAfter(src, target)).to.be.true;
+                    });
+
+                    it('1984-04-06 < 1988-07-11', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1984, 3, 6);
+                        const target = new Date(1988, 6, 11);
+                        expect(element.isAfter(src, target)).to.be.false;
+                    });
+
+                    it('1968-08-30 > 1945-01-23', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1968, 7, 30);
+                        const target = new Date(1945, 0, 23);
+                        expect(element.isAfter(src, target)).to.be.true;
+                    });
+
+                    it('2011-05-06 < 2068-04-03', () => {
+                        const element = fixture('basic');
+                        const src = new Date(2011, 4, 6);
+                        const target = new Date(2068, 3, 3);
+                        expect(element.isAfter(src, target)).to.be.false;
+                    });
+
+                    it('1959-11-30 < 1960-01-01', () => {
+                        const element = fixture('basic');
+                        const src = new Date(1959, 10, 30);
+                        const target = new Date(1960, 0, 1);
+                        expect(element.isAfter(src, target)).to.be.false;
+                    });
+
+                    it('2011-09-15 > 1970-01-06', () => {
+                        const element = fixture('basic');
+                        const src = new Date(2011, 8, 15);
+                        const target = new Date(1970, 0, 6);
+                        expect(element.isAfter(src, target)).to.be.true;
+                    });
                 });
             });
         });
