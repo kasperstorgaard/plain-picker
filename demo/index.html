@@ -17,6 +17,17 @@
             plain-picker {
                 margin: -20px;
             }
+            #input {
+                display: block;
+                font-size: 1em;
+                text-align: center;
+                margin: 0 auto 2em;
+                line-height: 1.5em;
+                border: 1px solid rgba(55,55,55,0.3);
+            }
+            #input:focus {
+                outline: none;
+            }
         </style>
     </head>
     <body>
@@ -31,23 +42,7 @@
             <h3>Adding to input field (vanilla)</h3>
             <demo-snippet>
                 <template>
-                    <style>
-                        #input {
-                            width: 100%;
-                            line-height: 1.5em;
-                            font-size: 1em;
-                            text-align: center;
-                            margin-bottom: 2em;
-                            border: none;
-                            border-bottom: 2px solid rgba(55,55,55,0.3);
-                            font-weight: bold;
-                        }
-                        #input:focus {
-                            outline: none;
-                            border-bottom-color: black;
-                        }
-                    </style>
-                    <input id="input" value="1984-07-04" placeholder="put yo date in here!"/>
+                    <input id="input" value="7-4-1985" placeholder="put yo date in here!"/>
                     <plain-picker id="picker"></plain-picker>
                     <script>
                         const input = document.getElementById('input');
@@ -55,17 +50,15 @@
 
                         // for formatting, use your framework of choice,
                         // - momentjs: all the features, heavy
-                        // - fech: minimal, superlight
+                        // - fecha: minimal, superlight
                         input.addEventListener('change', () => {
-                            picker.date = (new Date(input.value)).toJSON();
+                            const split = input.value.split('-');
+                            picker.date = (new Date(split[2], split[1] - 1, split[0])).toJSON();
                         });
 
                         picker.addEventListener('date-changed', () => {
                             const date = new Date(picker.date);
-                            const year = date.getFullYear();
-                            const month = date.getMonth();
-                            const day = date.getDate();
-                            input.value = `${year}-${month + 1}-${day}`;
+                            input.value = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
                         });
                     </script>
                 </template>
