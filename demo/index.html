@@ -28,6 +28,49 @@
                 </template>
             </demo-snippet>
 
+            <h3>Adding to input field (vanilla)</h3>
+            <demo-snippet>
+                <template>
+                    <style>
+                        #input {
+                            width: 100%;
+                            line-height: 1.5em;
+                            font-size: 1em;
+                            text-align: center;
+                            margin-bottom: 2em;
+                            border: none;
+                            border-bottom: 2px solid rgba(55,55,55,0.3);
+                            font-weight: bold;
+                        }
+                        #input:focus {
+                            outline: none;
+                            border-bottom-color: black;
+                        }
+                    </style>
+                    <input id="input" value="1984-07-04" placeholder="put yo date in here!"/>
+                    <plain-picker id="picker"></plain-picker>
+                    <script>
+                        const input = document.getElementById('input');
+                        const picker = document.getElementById('picker');
+
+                        // for formatting, use your framework of choice,
+                        // - momentjs: all the features, heavy
+                        // - fech: minimal, superlight
+                        input.addEventListener('change', () => {
+                            picker.date = (new Date(input.value)).toJSON();
+                        });
+
+                        picker.addEventListener('date-changed', () => {
+                            const date = new Date(picker.date);
+                            const year = date.getFullYear();
+                            const month = date.getMonth();
+                            const day = date.getDate();
+                            input.value = `${year}-${month + 1}-${day}`;
+                        });
+                    </script>
+                </template>
+            </demo-snippet>
+
             <h3>On light backgrounds</h3>
             <paper-tabs id="colored-bg-tabs">
                 <paper-tab class="bg0">blue</paper-tab>
@@ -48,13 +91,13 @@
 
             <script>
                 addEventListener('WebComponentsReady', () => {
-                    const picker = document.getElementById('colored-bg-snippet')
+                    const picker2 = document.getElementById('colored-bg-snippet')
                         .querySelector('plain-picker');
                     const tabs = document.getElementById('colored-bg-tabs');
 
                     tabs.addEventListener('selected-changed', e => {
-                        picker.classList.remove('bg0', 'bg1', 'bg2');
-                        picker.classList.add(`bg${e.detail.value}`);
+                        picker2.classList.remove('bg0', 'bg1', 'bg2');
+                        picker2.classList.add(`bg${e.detail.value}`);
                     });
                 });
             </script>
