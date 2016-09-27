@@ -97,6 +97,10 @@
                 }
             },
 
+            observers: [
+                '_setDate(dates.0)'
+            ],
+
             _buildWeeks (year, month, startOfWeek) {
                 const fromDate = this._getStartDate(year, month, startOfWeek);
                 const weekOffsets = [0, 1, 2, 3, 4, 5];
@@ -159,7 +163,12 @@
                     return;
                 }
                 this.set('date', target.date);
+            },
+
+            _setDate (firstDate) {
+                this.set('date', firstDate);
             }
+
         });
     </script>
 </dom-module>
