@@ -27,12 +27,17 @@
         </style>
         <!-- begin:data --> 
         <pp-date-transformer date="{{_date}}"
-                             json="{{date}}"></pp-date-transformer>
+                             json="{{date}}"
+        ></pp-date-transformer>
         <pp-date-transformer date="{{_minDate}}"
-                             json="{{minDate}}"></pp-date-transformer>
+                             json="{{minDate}}"
+        ></pp-date-transformer>
         <pp-date-transformer date="{{_maxDate}}" 
-                             json="{{maxDate}}"></pp-date-transformer>
-        <pp-default-locale id="default-locale" value="{{_defaultLocale}}"></pp-default-locale>
+                             json="{{maxDate}}"
+        ></pp-date-transformer>
+        <pp-default-locale id="default-locale"
+                           value="{{_defaultLocale}}"
+        ></pp-default-locale>
         <!-- end: data -->
 
         <!-- begin: ui -->
@@ -41,15 +46,19 @@
                 date="[[_date]]"
                 locale="[[_locale]]"
                 min-date="[[_minDate]]"
-                max-date="[[_maxDate]]"></pp-nav>
+                max-date="[[_maxDate]]"
+        ></pp-nav>
         <pp-week-header locale="[[_locale]]"
-                        day-format="single"></pp-week-header>
+                        day-format="single"
+        ></pp-week-header>
         <pp-month active-date="{{_date}}"
                   year="[[_year]]"
                   month="[[_month]]"
                   locale="[[_locale]]"
                   min-date="[[_minDate]]"
-                  max-date="[[_maxDate]]"></pp-month>
+                  max-date="[[_maxDate]]"
+                  range="[[range]]"
+        ></pp-month>
         <!-- end: ui -->
     </template>
 
@@ -73,6 +82,10 @@
                 maxDate: {
                     type: Object,
                     value: null
+                },
+                range: {
+                    type: Boolean,
+                    value: false
                 },
                 _locale: {
                     type: Object,
