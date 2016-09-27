@@ -198,6 +198,13 @@
                         expect(element).to.have.property('maxDate');
                     });
                 });
+
+                context('.range', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('range');
+                    });
+                });
             });
         </script>
     </body>
