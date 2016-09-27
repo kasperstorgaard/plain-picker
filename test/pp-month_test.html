@@ -44,10 +44,10 @@
                     expect(element.is).to.equal('pp-month');
                 });
 
-                context('.activeDate', () => {
+                context('.date', () => {
                     it('is defined', () => {
                         const element = fixture('basic');
-                        expect(element).to.have.property('activeDate')
+                        expect(element).to.have.property('date')
                             .that.is.an.object;
                     });
 
@@ -55,14 +55,14 @@
                         const element = fixture('basic');
                         const now = new Date();
 
-                        expect(ymd(element.activeDate)).to.equal(ymd(now));
+                        expect(ymd(element.date)).to.equal(ymd(now));
                     });
 
                     it('notifies', () => {
                         const element = fixture('basic');
                         const spy = sinon.spy();
-                        element.addEventListener('active-date-changed', spy);
-                        element.set('activeDate', new Date(1984, 0, 1));
+                        element.addEventListener('date-changed', spy);
+                        element.set('date', new Date(1984, 0, 1));
                         expect(spy).to.have.been.calledOnce;
                     });
                 });
