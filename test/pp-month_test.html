@@ -67,6 +67,26 @@
                     });
                 });
 
+                context('.dates', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('date');
+                    });
+
+                    it('defaults to array with current Date', () => {
+                        const element = fixture('basic');
+                        expect(element.dates).to.deep.equal([new Date()]);
+                    });
+
+                    it('notifies', () => {
+                        const element = fixture('basic');
+                        const spy = sinon.spy();
+                        element.addEventListener('dates-changed', spy);
+                        element.set('dates', [new Date(1984, 0, 1), new Date(1984, 1, 1)]);
+                        expect(spy).to.have.been.calledOnce;
+                    });
+                });
+
                 context('.year', () => {
                     it('is defined', () => {
                         const element = fixture('basic');
