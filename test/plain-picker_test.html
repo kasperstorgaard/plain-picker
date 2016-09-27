@@ -76,6 +76,14 @@
                             .that.is.a.string;
                     });
                 });
+
+                context('.range', () => {
+                    it('is defined', () => {
+                        const element = fixture('basic');
+                        expect(element).to.have.property('range')
+                            .that.is.a.boolean;
+                    });
+                });
             });
         </script>
     </body>
