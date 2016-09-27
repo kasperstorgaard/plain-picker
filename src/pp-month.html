@@ -61,6 +61,11 @@
                     notify: true,
                     value: () => new Date()
                 },
+                dates: {
+                    type: Array,
+                    notify: true,
+                    value: () => [new Date()]
+                },
                 year: {
                     type: Number,
                     value: () => (new Date()).getFullYear()
