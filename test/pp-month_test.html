@@ -75,7 +75,9 @@
 
                     it('defaults to array with current Date', () => {
                         const element = fixture('basic');
-                        expect(element.dates).to.deep.equal([new Date()]);
+                        const now = new Date();
+                        const date = element.dates[0];
+                        expect(ymd(date)).to.deep.equal(ymd(now));
                     });
 
                     it('notifies', () => {
@@ -84,6 +86,13 @@
                         element.addEventListener('dates-changed', spy);
                         element.set('dates', [new Date(1984, 0, 1), new Date(1984, 1, 1)]);
                         expect(spy).to.have.been.calledOnce;
+                    });
+
+                    it('sets date to first value', () => {
+                        const element = fixture('basic');
+                        const date = new Date(1984, 0, 1);
+                        element.set('dates', [date]);
+                        expect(element.date).to.equal(date);
                     });
                 });
 
