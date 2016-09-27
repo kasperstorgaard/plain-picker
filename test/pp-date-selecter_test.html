@@ -1,0 +1,82 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>pp-date-selecter test</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../src/pp-date-selecter.html">
+</head>
+
+<body>
+    <test-fixture id="basic">
+        <template>
+            <pp-date-selecter
+            ></pp-date-selecter>
+        </template>
+    </test-fixture>
+
+    <test-fixture id="range">
+        <template>
+            <pp-date-selecter range
+            ></pp-date-selecter>
+        </template>
+    </test-fixture>
+    <script>
+        describe('<pp-date-selecter>', () => {
+            it('works', () => {
+                const element = fixture('basic');
+                expect(element.is).to.equal('pp-date-selecter');
+            });
+
+            context('.dates', () => {
+                it('is defined', () => {
+                });
+                it('defaults to null', () => {
+                });
+                it('cuts to .max length', () => {
+                });
+            });
+
+            context('.lastSelected', () => {
+                it('is defined', () => {
+                });
+                it('defaults to null', () => {
+                });
+                it('notifies', () => {
+                });
+                it('is read only', () => {
+                });
+            });
+
+            context('.max', () => {
+                it('is defined', () => {
+                });
+                it('defaults to 1', () => {
+                });
+            });
+
+            context('.select()', () => {
+                it('updates .lastSelected', () => {
+                });
+                it('prepends value to .dates', () => {
+                });
+                it('returns the resulting selection', () => {
+                });
+            });
+
+            context('.reset()', () => {
+                it('resets .dates', () => {
+                });
+                it('resets .lastSelected', () => {
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
+
