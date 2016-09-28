@@ -13,24 +13,28 @@
                 lastSelected: {
                     type: Object,
                     value: null,
-                    computed: '_getValue(dates.0)',
+                    computed: '_getLastSelected(dates.*)',
                     notify: true
                 },
                 max: {
                     type: Number,
                     value: 1
+                },
+                _stack: {
+                    type: Array,
+                    value: () => []
                 }
             },
 
             observers: [
-                '_cutDates(dates.length)'
+                '_buildDates(_stack.*, max)'
             ],
 
             select (date) {
                 if (!date || typeof date !== 'object' || !(date instanceof Date)) {
                     throw new Error('must provide a valid date to .select()');
                 }
-                this.unshift('dates', date);
+                this.unshift('_stack', date);
                 return this.dates;
             },
 
@@ -38,16 +42,14 @@
                 this.set('dates', []);
             },
 
-            _cutDates () {
-                if (this.dates.length <= this.max) {
-                    return;
-                }
-                const diff = this.dates.length - this.max;
-                this.splice('dates', this.max - 1, diff);
+            _buildDates (stackMutations, max) {
+                const cut = this._stack.slice(0, max);
+                const ordered = cut.sort((a, b) => a.valueOf() >= b.valueOf());
+                this.set('dates', ordered);
             },
 
-            _getValue (value) {
-                return value;
+            _getLastSelected () {
+                return this.dates[0] || null;
             }
         });
     </script>

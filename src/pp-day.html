@@ -38,15 +38,19 @@
                 width: 2em;
                 height: 2em;
                 line-height: 2em;
-                border-radius: 100%;
-                text-align: center;
                 border: 1px solid transparent;
+                text-align: center;
                 @apply(--plain-picker-day);
             }
 
             :host[selected] .inner {
                 border-color: var(--plain-picker-base-color, black);
                 @apply(--plain-picker-day-selected);
+            }
+
+            :host[within-range] .inner {
+                background: rgba(55, 55, 55, 0.1);
+                @apply(--plain-picker-day-within-range);
             }
         </style>
         <div class="inner">[[number]]</div>
@@ -69,7 +73,8 @@
                 disabled: Boolean,
                 outside: Boolean,
                 isMin: Boolean,
-                isMax: Boolean
+                isMax: Boolean,
+                withinRange: Boolean
             },
             _getNumber (date) {
                 return date.getDate();

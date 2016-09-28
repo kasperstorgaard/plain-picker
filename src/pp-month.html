@@ -1,6 +1,7 @@
 <link rel="import" href="../../polymer/polymer.html">
 <link rel="import" href="./pp-day.html">
 <link rel="import" href="./pp-date-util.html">
+<link rel="import" href="./pp-date-selecter.html">
 
 <!--
     `calendar-month`
@@ -26,6 +27,11 @@
         </style>
         <!-- begin: data -->
         <pp-date-util id="date-util"></pp-date-util>
+        <pp-date-selecter id="date-selecter"
+                          dates="{{dates}}"
+                          last-selected="{{date}}"
+                          max="[[_maxSelected(range)]]"
+        ></pp-date-selecter>
         <!-- end: data -->
 
         <!-- begin: ui -->
@@ -35,15 +41,16 @@
             <div class="week">
                 <template is="dom-repeat"
                           items="[[week]]"
-                          as="date"
+                          as="day"
                 >
-                    <pp-day date="[[date]]"
-                            selected$="[[_isSameDate(date, date)]]"
-                            disabled$="[[_isOutsideMinMax(date, minDate, maxDate)]]"
+                    <pp-day date="[[day]]"
+                            selected$="[[_isSelected(range, day, dates.*)]]"
+                            within-range$="[[_isWithinRange(range, day, dates.*)]]"
+                            disabled$="[[_isOutsideMinMax(day, minDate, maxDate)]]"
                             on-tap="_daySelected"
-                            outside$="[[_isOutsideMonth(date, month)]]"
-                            is-min$="[[_isSameDate(date, minDate)]]"
-                            is-max$="[[_isSameDate(date, maxDate)]]"
+                            outside$="[[_isOutsideMonth(day, month)]]"
+                            is-min$="[[_isSameDate(day, minDate)]]"
+                            is-max$="[[_isSameDate(day, maxDate)]]"
                             class$="day"
                     ></pp-day>
                 </template>
@@ -97,10 +104,6 @@
                 }
             },
 
-            observers: [
-                '_setDate(dates.0)'
-            ],
-
             _buildWeeks (year, month, startOfWeek) {
                 const fromDate = this._getStartDate(year, month, startOfWeek);
                 const weekOffsets = [0, 1, 2, 3, 4, 5];
@@ -140,19 +143,42 @@
                 return offsets.map(offset => new Date(year, month, date + offset));
             },
 
-            _isSameDate (target, src) {
+            _isSameDate (target, ...sources) {
                 const dateUtil = this.$['date-util'];
-                return dateUtil.isSame(target, src);
+                const same = sources.find(src => dateUtil.isSame(target, src));
+                return !!same;
             },
 
             _isOutsideMonth (date, month) {
                 return date.getMonth() !== month;
             },
 
-            _isOutsideMinMax (date, minDate, maxDate) {
+            _isInRange (date, minDate, maxDate) {
                 const dateUtil = this.$['date-util'];
-                return dateUtil.isBefore(date, minDate) ||
-                    dateUtil.isAfter(date, maxDate);
+                return !dateUtil.isBefore(date, minDate) &&
+                    !dateUtil.isAfter(date, maxDate);
+            },
+
+            _isOutsideMinMax(date, minDate, maxDate) {
+                return !this._isInRange(date, minDate, maxDate);
+            },
+
+            _isWithinRange (range, date) {
+                if (!range || this.dates.length < 2) {
+                    return false;
+                }
+                return this._isInRange(date, this.dates[0], this.dates[1]);
+            },
+
+            _isSelected (range, date) {
+                if (!this.dates.length) {
+                    return false;
+                }
+                return this._isSameDate(date, ...this.dates);
+            },
+
+            _maxSelected (range) {
+                return range ? 2 : 1;
             },
 
             _daySelected (event) {
@@ -162,13 +188,8 @@
                 if (target.disabled) {
                     return;
                 }
-                this.set('date', target.date);
-            },
-
-            _setDate (firstDate) {
-                this.set('date', firstDate);
+                this.$['date-selecter'].select(target.date);
             }
-
         });
     </script>
 </dom-module>
