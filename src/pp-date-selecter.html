@@ -5,6 +5,49 @@
         Polymer({
             is: 'pp-date-selecter',
             properties: {
+                dates: {
+                    type: Array,
+                    value: () => [],
+                    notify: true
+                },
+                lastSelected: {
+                    type: Object,
+                    value: null,
+                    computed: '_getValue(dates.0)',
+                    notify: true
+                },
+                max: {
+                    type: Number,
+                    value: 1
+                }
+            },
+
+            observers: [
+                '_cutDates(dates.length)'
+            ],
+
+            select (date) {
+                if (!date || typeof date !== 'object' || !(date instanceof Date)) {
+                    throw new Error('must provide a valid date to .select()');
+                }
+                this.unshift('dates', date);
+                return this.dates;
+            },
+
+            reset () {
+                this.set('dates', []);
+            },
+
+            _cutDates () {
+                if (this.dates.length <= this.max) {
+                    return;
+                }
+                const diff = this.dates.length - this.max;
+                this.splice('dates', this.max - 1, diff);
+            },
+
+            _getValue (value) {
+                return value;
             }
         });
     </script>
