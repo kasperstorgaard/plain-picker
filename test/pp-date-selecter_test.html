@@ -19,12 +19,6 @@
         </template>
     </test-fixture>
 
-    <test-fixture id="range">
-        <template>
-            <pp-date-selecter range
-            ></pp-date-selecter>
-        </template>
-    </test-fixture>
     <script>
         describe('<pp-date-selecter>', () => {
             it('works', () => {
@@ -34,44 +28,147 @@
 
             context('.dates', () => {
                 it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('dates')
+                        .that.is.an.array;
                 });
-                it('defaults to null', () => {
+
+                it('notifies', () => {
+                    const element = fixture('basic');
+                    const spy = sinon.spy();
+                    element.addEventListener('dates-changed', spy);
+                    element.set('dates', [new Date()]);
+                    expect(spy).to.have.been.called;
                 });
-                it('cuts to .max length', () => {
+
+                it('it cuts the dates length to max', () => {
+                    const element = fixture('basic');
+                    const date = new Date();
+                    element.set('dates', [date, date, date]);
+                    expect(element.dates.length).to.equal(1);
                 });
             });
 
             context('.lastSelected', () => {
                 it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('lastSelected');
                 });
+
                 it('defaults to null', () => {
+                    const element = fixture('basic');
+                    expect(element.lastSelected).to.be.null;
                 });
+
                 it('notifies', () => {
+                    const element = fixture('basic');
+                    const spy = sinon.spy();
+                    element.addEventListener('last-selected-changed', spy);
+                    element.set('dates', [new Date()]);
+                    expect(spy).to.have.been.called;
                 });
+
                 it('is read only', () => {
+                    const element = fixture('basic');
+                    const fn = () => { element.set('lastSelected', null); };
+                    expect(fn).to.throw(/only a getter/);
+                });
+
+                it('is the first value of dates', () => {
+                    const element = fixture('basic');
+                    const date = new Date();
+                    element.set('dates', [date]);
+                    expect(element.lastSelected).to.equal(date);
                 });
             });
 
             context('.max', () => {
                 it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('max')
+                        .that.is.a.number;
                 });
+
                 it('defaults to 1', () => {
+                    const element = fixture('basic');
+                    expect(element.max).to.equal(1);
                 });
             });
 
             context('.select()', () => {
-                it('updates .lastSelected', () => {
+                it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('select')
+                        .that.is.a.function;
                 });
+
+                it('throws if passed falsy', () => {
+                    const element = fixture('basic');
+                    const fn = () => element.select(null);
+                    expect(fn).to.throw(/must provide a valid date/);
+                });
+
+                it('throws if passed str', () => {
+                    const element = fixture('basic');
+                    const fn = () => element.select('str');
+                    expect(fn).to.throw(/must provide a valid date/);
+                });
+
+                it('throws if passed obj', () => {
+                    const element = fixture('basic');
+                    const fn = () => element.select({});
+                    expect(fn).to.throw(/must provide a valid date/);
+                });
+
+                it('appends value to .dates', () => {
+                    const element = fixture('basic');
+                    const date = new Date();
+                    element.select(date);
+                    expect(element.dates[0]).to.equal(date);
+                });
+
                 it('prepends value to .dates', () => {
+                    const element = fixture('basic');
+                    const date = new Date();
+                    element.select(date);
+                    expect(element.dates[0]).to.equal(date);
                 });
+
+                it('cuts the array to fit max', () => {
+                    const element = fixture('basic');
+                    const date = new Date();
+                    element.select(date);
+                    element.select(date);
+                    expect(element.dates.length).to.equal(1);
+                });
+
                 it('returns the resulting selection', () => {
+                    const element = fixture('basic');
+                    const date = new Date();
+                    const result = element.select(date);
+                    expect(element.dates).to.equal(result);
                 });
             });
 
             context('.reset()', () => {
-                it('resets .dates', () => {
+                it('is defined', () => {
+                    const element = fixture('basic');
+                    expect(element).to.have.property('reset')
+                        .that.is.a.function;
                 });
+
+                it('resets .dates', () => {
+                    const element = fixture('basic');
+                    element.select(new Date());
+                    element.reset();
+                    expect(element.dates).to.deep.equal([]);
+                });
+
                 it('resets .lastSelected', () => {
+                    const element = fixture('basic');
+                    element.select(new Date());
+                    element.reset();
+                    expect(element.lastSelected).to.be.falsy;
                 });
             });
         });
